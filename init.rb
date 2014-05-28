@@ -1,3 +1,5 @@
+require 'issue_view_listener'
+
 Redmine::Plugin.register :redmine_view_issue do
   name 'Redmine View Issue plugin'
   author 'Zitec'
