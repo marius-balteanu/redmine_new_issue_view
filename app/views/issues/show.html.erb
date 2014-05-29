@@ -137,6 +137,7 @@
 <% end %>
 </div>
 
+<% if @changesets.present? || @journals.present? %>
 <div class="issue-section with-tabs">
 <% if @changesets.present? %>
 <div id="issue-changesets">
@@ -156,6 +157,7 @@
 </div>
 <% end %>
 </div>
+<% end %>
 
 <div style="clear: both;"></div>
 
