@@ -17,27 +17,29 @@
 <% end %>
 
 <div class="issue-section">	
-	<div class="issue-title">
-		<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
-		<%= render :partial => 'action_menu' %>		
-		<div class="main-title">		
-			<h2><%= @issue %></h2>
-			<div class="subject">
-				<% render_issue_subject_with_tree(@issue) %>
-			</div>
-			<p class="author">
-		        <%= authoring @issue.created_on, @issue.author %>.
-		        <% if @issue.created_on != @issue.updated_on %>
-		        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
-		        <% end %>
-	        </p>
-		</div>		
-		
-	</div>
-	<div class="issue-buttons">
-			<!-- Plugin-ul de butoane se injecteaza automat inaintea
-	 primului div ce contine clasa "issue" -->
-		<div class="issue"></div>
+	<div class="js-issue-header">
+		<div class="issue-title">
+			<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
+			<%= render :partial => 'action_menu' %>		
+			<div class="main-title">		
+				<h2><%= @issue %></h2>
+				<div class="subject">
+					<% render_issue_subject_with_tree(@issue) %>
+				</div>
+				<p class="author">
+			        <%= authoring @issue.created_on, @issue.author %>.
+			        <% if @issue.created_on != @issue.updated_on %>
+			        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+			        <% end %>
+		        </p>
+			</div>		
+			
+		</div>
+		<div class="issue-buttons">
+				<!-- Plugin-ul de butoane se injecteaza automat inaintea
+		 primului div ce contine clasa "issue" -->
+			<div class="issue"></div>
+		</div>
 	</div>
 	
 	
@@ -179,16 +181,18 @@
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 
-<% content_for :sidebar do %>
-  <%= call_hook(:view_issues_before_sidebar) %>
-  <%= render :partial => 'issues/sidebar' %>
 
-  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
-    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
-    <div id="watchers">
-      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
-    </div>
-  <% end %>
+<% content_for :sidebar do %>	
+	<div class="sidebar-content sidebar-resources">
+		<%= call_hook(:view_issues_before_sidebar) %>
+	</div>
+  	<%= render :partial => 'issues/sidebar' %>  
+	  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+	    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+	    <div id="watchers">
+	      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+	    </div>
+	  <% end %>  	
 <% end %>
 
 <% content_for :header_tags do %>
