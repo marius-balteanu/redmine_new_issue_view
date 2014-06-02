@@ -183,9 +183,7 @@
 
 
 <% content_for :sidebar do %>	
-	<div class="sidebar-content sidebar-resources">
-		<%= call_hook(:view_issues_before_sidebar) %>
-	</div>
+	<%= call_hook(:view_issues_before_sidebar) %>		
   	<%= render :partial => 'issues/sidebar' %>  
 	  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
 	    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
