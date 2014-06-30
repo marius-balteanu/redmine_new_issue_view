@@ -126,7 +126,7 @@
 		</div>
 		<h3 class="subtitle"><%=l(:label_subtask_plural)%></h3>
 	</div>
-	<%= render_descendants_tree(@issue) unless @issue.leaf? %>
+	<%= render_descendants_tree_status(@issue) unless @issue.leaf? %>
 	</div>
 	<% end %>
 </div>
