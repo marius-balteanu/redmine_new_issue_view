@@ -14,7 +14,7 @@
 <table class="list issues">
 <% @relations.each do |relation| %>
   <% other_issue = relation.other_issue(@issue) -%>
-  <tr class="issue hascontextmenu" id="relation-<%= relation.id %>">
+  <tr class="issue status-<%= other_issue.status.id %> hascontextmenu" id="relation-<%= relation.id %>">
   <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
   <td class="subject">
     <%= l(relation.label_for(@issue)) %>
