@@ -20,7 +20,7 @@
     <%= l(relation.label_for(@issue)) %>
     <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(other_issue.project) + ' - ' if Setting.cross_project_issue_relations? %>
-    <%= link_to_issue(other_issue, :truncate => 60) %>
+    <%= modified_link_to_issue(other_issue, :truncate => 60) %>
   </td>
   <td class="status"><%=h other_issue.status.name %></td>
   <td class="start_date"><%= format_date(other_issue.start_date) %></td>
