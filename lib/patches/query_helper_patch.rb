@@ -24,7 +24,7 @@ module NewIssueView
           when :done_ratio
             progress_bar(value, :width => '80px')
           when :updated_on
-            time_tag(value)
+            time_tag(value) + ' ago'
           when :relations
             other = value.other_issue(issue)
             content_tag('span',
