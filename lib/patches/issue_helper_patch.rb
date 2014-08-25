@@ -23,6 +23,7 @@ module NewIssueView
                                content_tag('td', modified_link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)), :class => 'subject') +
                                content_tag('td', content_tag('span', h(child.status)), :class => 'status') +
                                content_tag('td', link_to_user(child.assigned_to)) +
+                               content_tag('td', child.estimated_hours) +
                                content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
                            :class => css)
         end
@@ -42,10 +43,10 @@ module NewIssueView
             subject = subject.truncate(truncate_length)
           end
         end
-        only_path = options[:only_path].nil? ? true : options[:only_path]
+        only_path = options[:only_path].nil? ? true : options[:only_path]        
         s = link_to(text, issue_path(issue, :only_path => only_path),
                     :class => issue.css_classes, :title => title)
-        s << h(" #{subject}") if subject
+        s << link_to(" #{subject}", issue_path(issue, :only_path => only_path), :title => title ) if subject
         s = h("#{issue.project} - ") + s if options[:project]
         s
       end
