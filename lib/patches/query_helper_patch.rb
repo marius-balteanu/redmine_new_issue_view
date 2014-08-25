@@ -23,6 +23,8 @@ module NewIssueView
             issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
           when :done_ratio
             progress_bar(value, :width => '80px')
+          when :updated_on
+            time_tag(value)
           when :relations
             other = value.other_issue(issue)
             content_tag('span',
