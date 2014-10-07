@@ -17,12 +17,12 @@
     </div>
 <% end %>
 
-<div class="issue-section">	
+<div class="issue-section">
 	<div class="js-issue-header" id="issue-header-container">
 		<div class="issue-title">
 			<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
-			<%= render :partial => 'action_menu' %>		
-			<div class="main-title">		
+			<%= render :partial => 'action_menu' %>
+			<div class="main-title">
 				<h2><%= @issue %></h2>
 				<div class="subject">
 					<% render_issue_subject_with_tree(@issue) %>
@@ -33,27 +33,28 @@
 			        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
 			        <% end %>
 		        </p>
-			</div>		
-			
+			</div>
+
 		</div>
 		<div class="issue-buttons">
+			<div class="block-issue-button"><%= call_hook(:view_issues_buttons, :issue => @issue) %></div>
 				<!-- Plugin-ul de butoane se injecteaza automat inaintea
 		 primului div ce contine clasa "issue" -->
 			<div class="issue"></div>
 		</div>
 	</div>
-	
-	
+
+
 
 	<div class="<%= @issue.css_classes %> details">
 
-        
+
 	<div class="issue-attributes">
 		<table class="attributes">
 		<%= issue_fields_rows do |rows|
 		  rows.left l(:field_status), "<span>#{h(@issue.status.name)}</span>".html_safe, :class => 'status'
 		  rows.left l(:field_priority), h(@issue.priority.name), :class => 'priority'
-		
+
 		  unless @issue.disabled_core_fields.include?('assigned_to_id')
 		    rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
 		  end
@@ -63,7 +64,7 @@
 		  unless @issue.disabled_core_fields.include?('fixed_version_id')
 		    rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
 		  end
-		
+
 		  unless @issue.disabled_core_fields.include?('start_date')
 		    rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
 		  end
@@ -88,36 +89,36 @@
 	</div>
 
 	<% if @issue.description? || @issue.attachments.any? -%>
-	
+
 	<% if @issue.description? %>
 	<div class="description">
 	  <div class="contextual">
 	  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
 	  </div>
-	
+
 	  <h3 class="subtitle"><%=l(:field_description)%></h3>
 	  <div class="wiki">
 	  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
 	  </div>
 	</div>
 	<% end %>
-	
+
 	<% end -%>
-	
+
 	<%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
-	
+
 	<div class="issue-attachaments">
 		<%= link_to_attachments @issue, :thumbnails => true %>
 	</div>
-	
-	
+
+
 	</div>
 
 </div>
 
 <div class="issue-section collapsable-box">
 	<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
-	
+
 	<div id="issue_tree">
 	<div class="collapsable">
 		<div class="collapsable-arrow"></div>
@@ -183,15 +184,15 @@
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 
 
-<% content_for :sidebar do %>	
-	<%= call_hook(:view_issues_before_sidebar) %>		
-  	<%= render :partial => 'issues/sidebar' %>  
+<% content_for :sidebar do %>
+	<%= call_hook(:view_issues_before_sidebar) %>
+  	<%= render :partial => 'issues/sidebar' %>
 	  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
 	    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
 	    <div id="watchers">
 	      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
 	    </div>
-	  <% end %>  	
+	  <% end %>
 <% end %>
 
 <% content_for :header_tags do %>
