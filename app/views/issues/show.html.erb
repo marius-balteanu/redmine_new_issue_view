@@ -20,27 +20,57 @@
 <div class="issue-section">	
 	<div class="js-issue-header" id="issue-header-container">
 		<div class="issue-title">
-			<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
-			<%= render :partial => 'action_menu' %>		
+			<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>			
 			<div class="main-title">		
-				<h2><%= @issue %></h2>
-				<div class="subject">
-					<% render_issue_subject_with_tree(@issue) %>
+				<h2>
+					<%= @issue %>
+					<span class="updated">(<%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>)</span>
+				</h2>
+				<div class="issue-buttons">
+				<!-- Plugin-ul de butoane se injecteaza automat inaintea primului div ce contine clasa "issue" -->
+		 			<%= render :partial => 'action_menu' %>
+		 			
+		 			
+		 			
+		 			
+		 			<div class="I" id="button_panel" style="display: block;">
+  <div class="H button_bar" id="button_bar">
+    <input type="hidden" value="lwOn764op3bSEwxOx55xxJYuWaC9P8vfRHKPj7vNXZU=" name="current_auth_token" id="current_auth_token">
+        <div class="L btn_container">
+          <a data-lock-version="9" data-issue-id="12663" data-button-id="2" class="lu_button lu_img btn_comment no_redirect" href="#">
+            <span class="lu_button_main">Add Comment</span>
+          </a>
+        </div>
+        <div class="L btn_container">
+          <a data-lock-version="9" data-issue-id="12663" data-button-id="11" class="lu_button lu_img btn_to_check no_redirect" href="#">
+            <span class="lu_button_main">Integrate</span>
+          </a>
+        </div>
+        <div class="L btn_container">
+          <a data-lock-version="9" data-issue-id="12663" data-button-id="12" class="lu_button lu_img btn_complete no_redirect" href="#">
+            <span class="lu_button_main">Deliver</span>
+          </a>
+        </div>
+        <div class="L btn_container">
+          <a data-lock-version="9" data-issue-id="12663" data-button-id="3" class="lu_button lu_img btn_close no_redirect" href="#">
+            <span class="lu_button_main">Kill Issue</span>
+          </a>
+        </div>
+  </div>
+
+  <div class="button_action_form" id="button_action_form">
+    <div id="action_fields"></div>
+  </div>
+</div>
+
+
+
+
+					<div class="issue"></div>
 				</div>
-				<p class="author">
-			        <%= authoring @issue.created_on, @issue.author %>.
-			        <% if @issue.created_on != @issue.updated_on %>
-			        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
-			        <% end %>
-		        </p>
-			</div>		
-			
-		</div>
-		<div class="issue-buttons">
-				<!-- Plugin-ul de butoane se injecteaza automat inaintea
-		 primului div ce contine clasa "issue" -->
-			<div class="issue"></div>
-		</div>
+
+	        </div>
+		</div>						
 	</div>
 	
 	
@@ -115,30 +145,33 @@
 
 </div>
 
-<div class="issue-section collapsable-box">
-	<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
-	
-	<div id="issue_tree">
-	<div class="collapsable">
-		<div class="collapsable-arrow"></div>
-		<div class="contextual">
-		  <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
+<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
+	<div class="issue-section collapsable-box">
+			
+		<div id="issue_tree">
+		<div class="collapsable">
+			<div class="collapsable-arrow"></div>
+			<div class="contextual">
+			  <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
+			</div>
+			<h3 class="subtitle"><%=l(:label_subtask_plural)%></h3>
 		</div>
-		<h3 class="subtitle"><%=l(:label_subtask_plural)%></h3>
-	</div>
-	<%= render_descendants_tree_status(@issue) unless @issue.leaf? %>
-	</div>
-	<% end %>
-</div>
+		<%= render_descendants_tree_status(@issue) unless @issue.leaf? %>
+		</div>
 
-<div class="issue-section collapsable-box">
-<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
-
-<div id="relations">
-<%= render :partial => 'relations' %>
-</div>
+	</div>
 <% end %>
-</div>
+
+<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
+	<div class="issue-section collapsable-box">
+
+
+	<div id="relations">
+	<%= render :partial => 'relations' %>
+	</div>
+
+	</div>
+<% end %>
 
 <% if @changesets.present? || @journals.present? %>
 <div class="issue-section with-tabs">

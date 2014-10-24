@@ -24,7 +24,7 @@ module NewIssueView
                                content_tag('td', content_tag('span', h(child.status)), :class => 'status') +
                                content_tag('td', link_to_user(child.assigned_to)) +
                                content_tag('td', child.estimated_hours) +
-                               content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+                               content_tag('td', child.spent_hours),
                            :class => css)
         end
         s << '</table></form>'
@@ -49,7 +49,8 @@ module NewIssueView
         s << link_to(" #{subject}", issue_path(issue, :only_path => only_path), :title => title ) if subject
         s = h("#{issue.project} - ") + s if options[:project]
         s
-      end
+      end    
+
     end
   end
 end
