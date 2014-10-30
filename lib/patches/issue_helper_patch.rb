@@ -43,7 +43,7 @@ module NewIssueView
             subject = subject.truncate(truncate_length)
           end
         end
-        only_path = options[:only_path].nil? ? true : options[:only_path]        
+        only_path = options[:only_path].nil? ? true : options[:only_path]
         s = link_to(text, issue_path(issue, :only_path => only_path),
                     :class => issue.css_classes, :title => title)
         s << link_to(" #{subject}", issue_path(issue, :only_path => only_path), :title => title ) if subject

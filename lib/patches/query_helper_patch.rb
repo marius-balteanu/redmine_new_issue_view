@@ -34,7 +34,7 @@ module NewIssueView
             format_object(value)
           end
         end
-      
+
     end
   end
 end
