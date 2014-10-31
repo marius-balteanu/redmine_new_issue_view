@@ -2,22 +2,18 @@ module NewIssueView
   module WatchersHelperPatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods)
-
-      # Same as typing in the class
       base.class_eval do
-        unloadable # Send unloadable so it will not be unloaded in development
-
-        #alias_method_chain :available_filters, :parent_id
+        unloadable
+        alias_method_chain :watcher_link, :span
       end
     end
 
     module InstanceMethods
-
       def watcher_link_with_span(objects, user)
         return '' unless user && user.logged?
         objects = Array.wrap(objects)
         return '' unless objects.any?
-    
+
         watched = Watcher.any_watched?(objects, user)
         css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
         text = watched ? l(:button_unwatch) : l(:button_watch)
@@ -26,13 +22,13 @@ module NewIssueView
           :object_id => (objects.size == 1 ? objects.first.id : objects.map(&:id).sort)
         )
         method = watched ? 'delete' : 'post'
-    
+
         link_to content_tag('span', text), url, :remote => true, :method => method, :class => css
       end
-   
-
     end
   end
 end
-# Add module to Query
-WatchersHelper.send(:include, NewIssueView::WatchersHelperPatch)
+
+unless WatchersHelper.included_modules.include? NewIssueView::WatchersHelperPatch
+  WatchersHelper.send :include, NewIssueView::WatchersHelperPatch
+end
