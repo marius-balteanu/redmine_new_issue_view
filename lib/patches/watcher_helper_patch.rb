@@ -15,7 +15,7 @@ module NewIssueView
         return '' unless objects.any?
 
         watched = Watcher.any_watched?(objects, user)
-        css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
+        css = [watcher_css(objects), watched ? 'icon icon-del' : 'icon icon-fav-off'].join(' ')
         text = watched ? l(:button_unwatch) : l(:button_watch)
         url = watch_path(
           :object_type => objects.first.class.to_s.underscore,
