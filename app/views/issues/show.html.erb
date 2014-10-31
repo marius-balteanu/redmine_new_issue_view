@@ -27,50 +27,40 @@
           <span class="updated">(<%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>)</span>
         </h2>
         <div class="issue-buttons">
-			    <div class="block-issue-button button_bar H" id="button_bar"><%= call_hook(:new_issue_view_blocked_reason_button, :issue => @issue) %></div>
 				<!-- Plugin-ul de butoane se injecteaza automat inaintea primului div ce contine clasa "issue" -->
-		 			<%= render :partial => 'action_menu' %>
+          <%= render :partial => 'action_menu' %>
+          <div class="I" id="button_panel" style="display: block;">
+            <div class="H button_bar" id="button_bar">
+              <input type="hidden" value="lwOn764op3bSEwxOx55xxJYuWaC9P8vfRHKPj7vNXZU=" name="current_auth_token" id="current_auth_token">
+              <div class="L btn_container">
+                <a data-lock-version="9" data-issue-id="12663" data-button-id="2" class="lu_button lu_img btn_comment no_redirect" href="#">
+                  <span class="lu_button_main">Add Comment</span>
+                </a>
+              </div>
+              <div class="L btn_container">
+                <a data-lock-version="9" data-issue-id="12663" data-button-id="11" class="lu_button lu_img btn_to_check no_redirect" href="#">
+                  <span class="lu_button_main">Integrate</span>
+                </a>
+              </div>
+              <div class="L btn_container">
+                <a data-lock-version="9" data-issue-id="12663" data-button-id="12" class="lu_button lu_img btn_complete no_redirect" href="#">
+                  <span class="lu_button_main">Deliver</span>
+                </a>
+              </div>
+              <div class="L btn_container">
+                <a data-lock-version="9" data-issue-id="12663" data-button-id="3" class="lu_button lu_img btn_close no_redirect" href="#">
+                  <span class="lu_button_main">Kill Issue</span>
+                </a>
+              </div>
+            </div>
 
-
-
-
-		 			<div class="I" id="button_panel" style="display: block;">
-  <div class="H button_bar" id="button_bar">
-    <input type="hidden" value="lwOn764op3bSEwxOx55xxJYuWaC9P8vfRHKPj7vNXZU=" name="current_auth_token" id="current_auth_token">
-        <div class="L btn_container">
-          <a data-lock-version="9" data-issue-id="12663" data-button-id="2" class="lu_button lu_img btn_comment no_redirect" href="#">
-            <span class="lu_button_main">Add Comment</span>
-          </a>
-        </div>
-        <div class="L btn_container">
-          <a data-lock-version="9" data-issue-id="12663" data-button-id="11" class="lu_button lu_img btn_to_check no_redirect" href="#">
-            <span class="lu_button_main">Integrate</span>
-          </a>
-        </div>
-        <div class="L btn_container">
-          <a data-lock-version="9" data-issue-id="12663" data-button-id="12" class="lu_button lu_img btn_complete no_redirect" href="#">
-            <span class="lu_button_main">Deliver</span>
-          </a>
-        </div>
-        <div class="L btn_container">
-          <a data-lock-version="9" data-issue-id="12663" data-button-id="3" class="lu_button lu_img btn_close no_redirect" href="#">
-            <span class="lu_button_main">Kill Issue</span>
-          </a>
-        </div>
-  </div>
-
-  <div class="button_action_form" id="button_action_form">
-    <div id="action_fields"></div>
-  </div>
-</div>
-
-
-
-
-					<div class="issue"></div>
-				</div>
-
-	        </div>
+            <div class="button_action_form" id="button_action_form">
+              <div id="action_fields"></div>
+            </div>
+          </div>
+				  <div class="issue"></div>
+			  </div>
+	    </div>
 		</div>
 	</div>
 
