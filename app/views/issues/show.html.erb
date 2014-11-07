@@ -138,7 +138,6 @@
 
 <% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
 	<div class="issue-section collapsable-box">
-
 		<div id="issue_tree">
 		<div class="collapsable">
 			<div class="collapsable-arrow"></div>
@@ -155,12 +154,9 @@
 
 <% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
 	<div class="issue-section collapsable-box">
-
-
-	<div id="relations">
-	<%= render :partial => 'relations' %>
-	</div>
-
+  	<div id="relations">
+  	<%= render :partial => 'relations' %>
+  	</div>
 	</div>
 <% end %>
 

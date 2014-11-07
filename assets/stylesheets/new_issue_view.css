@@ -1,3 +1,15 @@
 .issue-title a.icon {
 	margin-right: -2px;
 }
+
+#issue_tree td.checkbox, #relations td.checkbox {
+    display: table-cell;
+}
+
+.hours_overdue {
+	color: red;
+}
+
+.hours_on_schedule {
+	color: blue;
+}
