@@ -1,0 +1,30 @@
+<form>
+  <table class="list issues">
+    <%
+      issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
+        css_class = "issue issue-#{child.id} status-#{child.status.id} hascontextmenu"
+        css_class << " idnt idnt-#{level}" if level > 0
+    %>
+      <tr class="<%= css_class %>">
+        <td class="checkbox">
+          <%= check_box_tag("ids[]", child.id, false, :id => nil) %>
+        </td>
+        <td class="subject">
+          <%= modified_link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)) %>
+        </td>
+        <td class="status">
+          <%= content_tag('span', h(child.status)) %>
+        </td>
+        <td class="checkbox">
+          <%= link_to_user(child.assigned_to) %>
+        </td>
+        <td class="checkbox">
+          <%= child.estimated_hours %>
+        </td>
+        <td class="checkbox">
+          <%= child.spent_hours %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</form>
