@@ -2,7 +2,9 @@
   <table class="list issues">
     <thead>
       <tr>
-        <th></td>
+        <th><%= link_to image_tag('toggle_check.png'), {},
+                              :onclick => 'toggleIssuesSelection(this); return false;',
+                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
         <th><%= t 'views.table_headers.subject' %></td>
         <th><%= t 'views.table_headers.status' %></td>
         <th><%= t 'views.table_headers.assignee' %></td>
