@@ -27,10 +27,8 @@
           <% other_issue = relation.other_issue(@issue)
             estimated_hours = other_issue.estimated_hours
             spent_hours = other_issue.spent_hours
-            hours_css_class = ''
-            if estimated_hours && spent_hours
-              hours_css_class = spent_hours > estimated_hours ? 'hours_overdue' : 'hours_on_schedule'
-            end
+            estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
+            spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours
           %>
           <tr class="issue status-<%= other_issue.status.id %> hascontextmenu" id="relation-<%= relation.id %>">
             <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
@@ -46,10 +44,10 @@
             <td class="status"><%=h other_issue.status.name %></td>
             <td class="start_date"><%= format_date(other_issue.start_date) %></td>
             <td class="due_date"><%= format_date(other_issue.due_date) %></td>
-            <td class="estimated">
+            <td class="estimated <%= estimated_hours_css %>">
               <%= estimated_hours %>
             </td>
-            <td class="spent  <%= hours_css_class %>">
+            <td class="spent  <%= spent_hours_css %>">
               <%= spent_hours %>
             </td>
             <td class="buttons"><%= link_to image_tag('link_break.png'),

@@ -1,7 +1,7 @@
 module NewIssueView
   module WatchersHelperPatch
-    def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
+    def self.included(base)
+      base.send :include, InstanceMethods
       base.class_eval do
         unloadable
         alias_method_chain :watcher_link, :span

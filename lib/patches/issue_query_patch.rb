@@ -1,12 +1,13 @@
 module NewIssueView
   module IssueQueryPatch
-    def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
-
-      # Same as typing in the class
+    def self.included(base)
+      base.send :include, InstanceMethods
       base.class_eval do
-        unloadable # Send unloadable so it will not be unloaded in development
-        self.available_columns[0] = QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id", :default_order => 'desc', :caption => '#', :frozen => false)
+        unloadable
+        self.available_columns[0] = QueryColumn.new(
+          :id, :sortable => "#{Issue.table_name}.id", :default_order => 'desc',
+          :caption => '#', :frozen => false
+        )
       end
     end
 
@@ -14,5 +15,7 @@ module NewIssueView
     end
   end
 end
-# Add module to Query
-IssueQuery.send(:include, NewIssueView::IssueQueryPatch)
+
+unless IssueQuery.included_modules.include? NewIssueView::IssueQueryPatch
+  IssueQuery.send :include, NewIssueView::IssueQueryPatch
+end

@@ -17,10 +17,8 @@
           css_class << " idnt idnt-#{level}" if level > 0
           estimated_hours = child.estimated_hours
           spent_hours = child.spent_hours
-          hours_css_class = ''
-          if estimated_hours && spent_hours
-            hours_css_class = spent_hours > estimated_hours ? 'hours_overdue' : 'hours_on_schedule'
-          end
+          estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
+          spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours
       %>
         <tr class="<%= css_class %>">
           <td class="checkbox">
@@ -35,10 +33,10 @@
           <td class="assignee">
             <%= link_to_user(child.assigned_to) %>
           </td>
-          <td class="estimated">
+          <td class="estimated <%= estimated_hours_css %>">
             <%= estimated_hours %>
           </td>
-          <td class="spent <%= hours_css_class %>">
+          <td class="spent <%= spent_hours_css %>">
             <%= spent_hours %>
           </td>
         </tr>

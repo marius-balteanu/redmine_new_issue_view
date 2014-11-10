@@ -8,8 +8,13 @@
 
 .hours_overdue {
 	color: red;
+	font-weight: bold;
 }
 
 .hours_on_schedule {
 	color: blue;
+}
+
+.hours_complete {
+	font-weight: bold;
 }
