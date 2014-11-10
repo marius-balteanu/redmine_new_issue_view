@@ -26,6 +26,7 @@
           </td>
           <td class="subject">
             <%= modified_link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)) %>
+            <%= call_hook :blocked_reason_tag_for, issue: child %>
           </td>
           <td class="status">
             <%= content_tag('span', h(child.status)) %>

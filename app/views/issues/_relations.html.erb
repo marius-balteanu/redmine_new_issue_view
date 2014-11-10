@@ -40,6 +40,7 @@
                               :class => other_issue.css_classes, :title => title) %>
               <%= link_to("#{other_issue.subject}", issue_path(other_issue),
                               :title => title) %>
+              <%= call_hook :blocked_reason_tag_for, issue: other_issue %>
             </td>
             <td class="status"><%=h other_issue.status.name %></td>
             <td class="start_date"><%= format_date(other_issue.start_date) %></td>

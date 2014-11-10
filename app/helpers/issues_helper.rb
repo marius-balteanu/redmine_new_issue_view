@@ -13,7 +13,7 @@ module IssuesHelper
     end
     only_path = options[:only_path].nil? ? true : options[:only_path]
     s = link_to(text, issue_path(issue, :only_path => only_path),
-                :class => issue.css_classes, :title => title)
+                :class => issue.css_classes + ' list_title', :title => title)
     s << link_to(" #{subject}", issue_path(issue, :only_path => only_path), :title => title ) if subject
     s = h("#{issue.project} - ") + s if options[:project]
     s
