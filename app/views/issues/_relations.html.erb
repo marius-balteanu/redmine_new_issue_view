@@ -12,16 +12,15 @@
     <table class="list issues">
       <thead>
         <tr>
+          <th><%= t 'views.table_headers.subject' %></td>
+          <th><%= t 'views.table_headers.status' %></td>
+          <th><%= t 'views.table_headers.assignee' %></td>
+          <th><%= t 'views.table_headers.estimated' %></td>
+          <th><%= t 'views.table_headers.spent' %></td>
+          <th><%= t 'views.table_headers.unlink' %></td>
           <th><%= link_to image_tag('toggle_check.png'), {},
                               :onclick => 'toggleIssuesSelection(this); return false;',
                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
-          <th><%= t 'views.table_headers.subject' %></td>
-          <th><%= t 'views.table_headers.status' %></td>
-          <th><%= t 'views.table_headers.start_date' %></td>
-          <th><%= t 'views.table_headers.due_date' %></td>
-          <th><%= t 'views.table_headers.estimated' %></td>
-          <th><%= t 'views.table_headers.spent' %></td>
-          <th><%= t 'views.table_headers.remove' %></td>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +32,6 @@
             spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours
           %>
           <tr class="issue status-<%= other_issue.status.id %> hascontextmenu" id="relation-<%= relation.id %>">
-            <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
             <td class="subject">
               <%= l(relation.label_for(@issue)) %>
               <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
@@ -45,8 +43,9 @@
               <%= call_hook :blocked_reason_tag_for, issue: other_issue %>
             </td>
             <td class="status"><%=h other_issue.status.name %></td>
-            <td class="start_date"><%= format_date(other_issue.start_date) %></td>
-            <td class="due_date"><%= format_date(other_issue.due_date) %></td>
+            <td class="assignee">
+              <%= link_to_user(other_issue.assigned_to) %>
+            </td>
             <td class="estimated <%= estimated_hours_css %>">
               <%= estimated_hours %>
             </td>
@@ -59,6 +58,7 @@
                                             :method => :delete,
                                             :data => {:confirm => l(:text_are_you_sure)},
                                             :title => l(:label_relation_delete) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
+            <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
           </tr>
         <% end %>
       </tbody>
