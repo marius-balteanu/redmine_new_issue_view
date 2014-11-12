@@ -132,29 +132,10 @@
 <% end %>
 
 <% if @changesets.present? || @journals.present? %>
-<div class="issue-section with-tabs">
-<% if @changesets.present? %>
-<div id="issue-changesets">
-<h3 class="subtitle"><%=l(:label_associated_revisions)%></h3>
-	<div class="full-list">
-	<%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
-	</div>
-</div>
-<% end %>
-
-<% if @journals.present? %>
-<div id="history">
-<h3 class="subtitle"><%=l(:label_history)%></h3>
-<div class="full-list">
-<%= render :partial => 'history', :locals => { :issue => @issue, :journals => @journals } %>
-</div>
-</div>
-<% end %>
-</div>
+	<%= render :partial => 'details', :locals => { :issue => @issue, :journals => @journals, :changesets => @changesets } %>
 <% end %>
 
 <div style="clear: both;"></div>
-
 
 <div style="clear: both;"></div>
 <% if @issue.editable? %>
