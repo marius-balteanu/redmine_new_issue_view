@@ -24,3 +24,15 @@
 	top: 0px;
 	right: 0px;
 }
+
+.issue_author_note {
+    margin-right: 10px;
+    margin-top: 40px;
+    text-align: right;
+}
+
+.issue_author_note a
+{
+	color: #d3ddff;
+    text-decoration: underline;
+}
