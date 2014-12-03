@@ -26,19 +26,21 @@
           <%= @issue %>
           <span class="updated">(<%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>)</span>
         </h2>
-        <div class="issue-buttons">
-				<!-- Plugin-ul de butoane se injecteaza automat inaintea primului div ce contine clasa "issue" -->
+        <div class="issue-buttons main_top_buttons">
           <%= render :partial => 'action_menu' %>
-				  <div class="issue"></div>
+        </div>
+        <div class="issue-buttons main_bottom_buttons">
+				<div class="contextual">
+					<%= call_hook(:new_issue_view_main_title_left_buttons, :issue => @issue) %>
+				</div>
+				<!-- Plugin-ul de butoane se injecteaza automat inaintea primului div ce contine clasa "issue" -->
+				<div class="issue"></div>
 			  </div>
 	    </div>
 		</div>
 	</div>
 
-
-
 	<div class="<%= @issue.css_classes %> details">
-
 
 	<div class="issue-attributes">
 		<table class="attributes">
