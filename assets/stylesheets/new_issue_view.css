@@ -1,0 +1,38 @@
+.issue-title a.icon {
+	margin-right: -2px;
+}
+
+#issue_tree td.checkbox, #relations td.checkbox {
+    display: table-cell;
+}
+
+.hours_overdue {
+	color: red;
+	font-weight: bold;
+}
+
+.hours_on_schedule {
+	color: blue;
+}
+
+.hours_complete {
+	font-weight: bold;
+}
+
+.main_top_buttons{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.issue_author_note {
+    margin-right: 10px;
+    margin-top: 40px;
+    text-align: right;
+}
+
+.issue_author_note a
+{
+	color: #d3ddff;
+    text-decoration: underline;
+}

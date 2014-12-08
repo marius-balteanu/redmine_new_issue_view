@@ -6,7 +6,6 @@ $(document).ready(function(){
   });
 });
 
-
 function fix_buttons_panel () {
   if (!(/\/issues\/\d+/).test($(location).attr('pathname'))) { return; }
   var pnl = $('.js-issue-header');

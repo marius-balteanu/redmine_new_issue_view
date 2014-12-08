@@ -1,3 +1,11 @@
-# English strings go here for Rails i18n
 en:
-  # my_label: "My label"
+  views:
+    table_headers:
+      subject: Subject
+      status: Status
+      start_date: Start Date
+      due_date: Due Date
+      estimated: Estimated
+      spent: Spent
+      unlink: Unlink
+      assignee: Assignee
