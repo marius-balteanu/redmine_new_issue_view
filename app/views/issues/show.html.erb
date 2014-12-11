@@ -20,32 +20,26 @@
 <div class="issue-section">
 	<div class="js-issue-header" id="issue-header-container">
 		<div class="issue-title">
-      <div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
-      <div class="main-title">
-        <h2>
-          <%= @issue %>
-        </h2>
-        <div class="issue-buttons main_top_buttons">
-         	<%= render :partial => 'action_menu' %>
-			<div class="issue_author_note">
-				<div class="created">
-					<%= authoring @issue.created_on, @issue.author %>.
+			<div class="avatar-img"><%= avatar(@issue.author, :size => "50") %></div>
+			<%= render :partial => 'action_menu' %>		
+			<div class="main-title">		
+				<h2><%= @issue %></h2>
+				<div class="subject">
+					<% render_issue_subject_with_tree(@issue) %>
 				</div>
-				<% if @issue.created_on != @issue.updated_on %>
-					<div class="updated">
-						<%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
-					</div>
-				<% end %>
-			</div>
-        </div>
-        <div class="issue-buttons main_bottom_buttons">
-				<div class="contextual">
-					<%= call_hook(:new_issue_view_main_title_left_buttons, :issue => @issue) %>
-				</div>
-				<!-- Plugin-ul de butoane se injecteaza automat inaintea primului div ce contine clasa "issue" -->
-				<div class="issue"></div>
-			  </div>
-	    </div>
+				<p class="author">
+			        <%= authoring @issue.created_on, @issue.author %>.
+			        <% if @issue.created_on != @issue.updated_on %>
+			        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+			        <% end %>
+		        </p>
+			</div>		
+			
+		</div>
+		<div class="issue-buttons">
+				<!-- Plugin-ul de butoane se injecteaza automat inaintea
+		 primului div ce contine clasa "issue" -->
+			<div class="issue"></div>
 		</div>
 	</div>
 
