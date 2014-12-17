@@ -1,12 +1,13 @@
 <form>
+<div class="autoscroll">
   <table class="list issues">
     <thead>
       <tr>
-        <th><%= t 'views.table_headers.subject' %></td>
-        <th><%= t 'views.table_headers.status' %></td>
-        <th><%= t 'views.table_headers.assignee' %></td>
-        <th><%= t 'views.table_headers.estimated' %></td>
-        <th><%= t 'views.table_headers.spent' %></td>
+        <th><%= t 'views.table_headers.subject' %></th>
+        <th><%= t 'views.table_headers.status' %></th>
+        <th><%= t 'views.table_headers.assignee' %></th>
+        <th><%= t 'views.table_headers.estimated' %></th>
+        <th><%= t 'views.table_headers.spent' %></th>
         <th><%= link_to image_tag('toggle_check.png'), {},
                               :onclick => 'toggleIssuesSelection(this); return false;',
                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
@@ -46,4 +47,5 @@
       <% end %>
     </tbody>
   </table>
+  </div>
 </form>
