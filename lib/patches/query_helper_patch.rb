@@ -15,6 +15,8 @@ module NewIssueView
           link_to value, issue_path(issue)
         when :subject
           link_to value + " (#{issue.id})", issue_path(issue)
+        when :spent_hours
+          issue.total_spent_hours
         when :description
           issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
         when :done_ratio
