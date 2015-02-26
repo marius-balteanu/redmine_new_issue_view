@@ -3,5 +3,29 @@
     <span class="">Add Comment</span>
   </a>
 </div>
-<div class="bottom_page_contaier">
+<div class="bottom_page_contaier", style="display: none;">
+  <%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+    <%= error_messages_for 'issue', 'time_entry' %>
+    <%= render :partial => 'conflict' if @conflict %>
+    <div class="box">
+      <fieldset>
+        <legend><%= l(:field_notes) %></legend>
+        <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
+        <% if @issue.safe_attribute? 'private_notes' %>
+        <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+        <% end %>
+      </fieldset>
+      <fieldset>
+        <legend><%= l(:label_attachment_plural) %></legend>
+        <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+      </fieldset>
+    </div>
+    <%= f.hidden_field :lock_version %>
+    <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
+    <%= submit_tag l(:button_submit) %>
+    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
+    |
+    <%= link_to l(:button_cancel), {}, class: 'bottom_cancel_button', href: '#' %>
+  <% end %>
+  <div id="preview" class="wiki"></div>
 </div>

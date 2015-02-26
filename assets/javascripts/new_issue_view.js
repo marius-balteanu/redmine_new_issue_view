@@ -6,15 +6,19 @@ $(document).ready(function(){
   });
 
   var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
-  var bottom_page_contaier = $('.bottom_page_buttons .bottom_page_contaier');
-  var button_location_url = location.protocol + location.host + '/lu_buttons/';
+  var bottom_page_contaier = $('.bottom_page_contaier');
+  var bottom_cancel_button = $('.bottom_cancel_button');
+  var bottom_comment_field = $('.bottom_page_contaier #issue_notes');
+
+  bottom_cancel_button.click(function(event){
+    event.preventDefault();
+    bottom_comment_field.val('');
+    bottom_page_contaier.hide();
+  });
+
   bottom_comment_button.click(function(event) {
     event.preventDefault();
-    bottom_page_contaier.load(
-      button_location_url +
-      bottom_comment_button.attr('data-button-id') + '/form/' +
-      bottom_comment_button..attr('data-issue-id')
-    );
+    bottom_page_contaier.show();
   });
 });
 
