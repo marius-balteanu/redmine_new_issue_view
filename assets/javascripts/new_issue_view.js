@@ -4,9 +4,21 @@ $(document).ready(function(){
       $(this).parent().toggleClass('closed');
     }
   });
+
+  var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
+  var bottom_page_contaier = $('.bottom_page_buttons .bottom_page_contaier');
+  var button_location_url = location.protocol + location.host + '/lu_buttons/';
+  bottom_comment_button.click(function(event) {
+    event.preventDefault();
+    bottom_page_contaier.load(
+      button_location_url +
+      bottom_comment_button.attr('data-button-id') + '/form/' +
+      bottom_comment_button..attr('data-issue-id')
+    );
+  });
 });
 
-function fix_buttons_panel () {
+function fix_buttons_panel() {
   if (!(/\/issues\/\d+/).test($(location).attr('pathname'))) { return; }
   var pnl = $('.js-issue-header');
   if (pnl.length == 0) { return; }
