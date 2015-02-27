@@ -7,12 +7,14 @@ $(document).ready(function(){
 
   var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
   var bottom_page_contaier = $('.bottom_page_contaier');
+  var bottom_preview_contaier = $('.bottom_preview_container');
   var bottom_cancel_button = $('.bottom_cancel_button');
   var bottom_comment_field = $('.bottom_page_contaier #issue_notes');
 
   bottom_cancel_button.click(function(event){
     event.preventDefault();
     bottom_comment_field.val('');
+    bottom_preview_contaier.empty();
     bottom_page_contaier.hide();
   });
 
