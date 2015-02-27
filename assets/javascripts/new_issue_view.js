@@ -4,9 +4,24 @@ $(document).ready(function(){
       $(this).parent().toggleClass('closed');
     }
   });
+
+  var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
+  var top_edit_button = $('.contextual .action_edit');
+
+  bottom_comment_button.click(function(event) {
+    event.preventDefault();
+    showAndScrollTo("update", "issue_notes");
+    $('#update #issue-form .box .tabular').hide();
+  });
+
+  top_edit_button.click(function(event) {
+    event.preventDefault();
+    showAndScrollTo("update", "issue_notes");
+    $('#update #issue-form .box .tabular').show();
+  });
 });
 
-function fix_buttons_panel () {
+function fix_buttons_panel() {
   if (!(/\/issues\/\d+/).test($(location).attr('pathname'))) { return; }
   var pnl = $('.js-issue-header');
   if (pnl.length == 0) { return; }
