@@ -34,3 +34,7 @@
 	color: #d3ddff;
     text-decoration: underline;
 }
+
+a.add_comment_button:link, a.add_comment_button:visited {
+  color: #222;
+}
