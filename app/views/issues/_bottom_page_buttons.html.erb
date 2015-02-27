@@ -17,13 +17,13 @@
       </fieldset>
       <fieldset>
         <legend><%= l(:label_attachment_plural) %></legend>
-        <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+        <p><%= render :partial => 'bottom_attachments', :locals => {:container => @issue} %></p>
       </fieldset>
     </div>
     <%= f.hidden_field :lock_version %>
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
-    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'bottom_page_form', 'bottom_preview' %>
+    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'bottom_page_form', 'bottom_preview_container' %>
     |
     <%= link_to l(:button_cancel), {}, class: 'bottom_cancel_button', href: '#' %>
   <% end %>
