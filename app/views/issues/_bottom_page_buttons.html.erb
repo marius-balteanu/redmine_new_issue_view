@@ -15,10 +15,6 @@
         <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
         <% end %>
       </fieldset>
-      <fieldset>
-        <legend><%= l(:label_attachment_plural) %></legend>
-        <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
-      </fieldset>
     </div>
     <%= f.hidden_field :lock_version %>
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
