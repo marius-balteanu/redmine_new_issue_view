@@ -139,7 +139,7 @@
 	</div>
 <% end %>
 
-<% if @changesets.present? || @journals.present? %>
+<% if (@changesets.present? || @journals.present?) && Redmine::Plugin.installed?(:redmine_issue_detailed_tabs_time) %>
 	<%= render :partial => 'details', :locals => { :issue => @issue, :journals => @journals, :changesets => @changesets } %>
 <% end %>
 
