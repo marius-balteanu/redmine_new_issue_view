@@ -18,21 +18,4 @@ module IssuesHelper
     s = h("#{issue.project} - ") + s if options[:project]
     s
   end
-
-  def issue_spent_hours_css_for(estimated_hours, spent_hours)
-    return '' unless estimated_hours && spent_hours
-    case
-    when spent_hours > estimated_hours
-      'hours_overdue'
-    when spent_hours == estimated_hours
-      'hours_complete'
-    else
-      'hours_on_schedule'
-    end
-  end
-
-  def issue_estimated_hours_css_for(estimated_hours, spent_hours)
-    return '' unless (estimated_hours && spent_hours) && (spent_hours == estimated_hours)
-    'hours_complete'
-  end
 end
