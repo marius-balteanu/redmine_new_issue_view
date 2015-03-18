@@ -1,8 +1,15 @@
-require 'issue_view_listener'
-require 'patches/issue_helper_patch'
-require 'patches/query_helper_patch'
-require 'patches/issue_query_patch'
-require 'patches/watcher_helper_patch'
+require 'redmine'
+
+# Patches to the Redmine core.
+ActionDispatch::Callbacks.to_prepare do
+  Dir[File.dirname(__FILE__) + '/lib/new_issue_view/patches/*_patch.rb'].each do |file|
+    require_dependency file
+  end
+
+  Dir[File.dirname(__FILE__) + '/lib/new_issue_view/hooks/*_hook.rb'].each do |file|
+    require_dependency file
+  end
+end
 
 Redmine::Plugin.register :redmine_new_issue_view do
   name 'Redmine New Issue View plugin'
