@@ -14,8 +14,8 @@ end
 Redmine::Plugin.register :redmine_new_issue_view do
   name 'Redmine New Issue View plugin'
   author 'Zitec'
-  description 'This is a plugin for Redmine'
-  version '0.0.1'
-  url 'http://www.zitec.com'
+  description 'Overriden issue views'
+  version '1.0.0'
+  url 'https://github.com/marius-balteanu/redmine_new_issue_view'
   author_url 'http://www.zitec.com'
 end
