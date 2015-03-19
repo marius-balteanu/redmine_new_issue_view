@@ -140,7 +140,7 @@
 <% end %>
 
 <% if (@changesets.present? || @journals.present?) && Redmine::Plugin.installed?(:redmine_issue_detailed_tabs_time) %>
-	<%= render :partial => 'details', :locals => { :issue => @issue, :journals => @journals, :changesets => @changesets } %>
+	<%= call_hook(:new_issue_view_details, issue: @issue, journals: @journals, changesets: @changesets) %>
 <% end %>
 
 <%= render 'bottom_page_buttons' %>
