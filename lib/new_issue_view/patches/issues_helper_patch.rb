@@ -43,6 +43,11 @@ module NewIssueView
             return '' unless (estimated_hours && spent_hours) && (spent_hours == estimated_hours)
             'hours_complete'
           end
+
+          def round_or_nill(value, decimals)
+            return unless value
+            value.to_f.round decimals
+          end
         end
       end
     end
