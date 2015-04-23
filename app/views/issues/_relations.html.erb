@@ -24,31 +24,12 @@
         </tr>
       </thead>
       <tbody>
-        <% @relations.each do |relation| %>
-          <%
-            def issue_spent_hours_css_for(estimated_hours, spent_hours)
-              return '' unless estimated_hours && spent_hours
-              case
-              when spent_hours > estimated_hours
-                'hours_overdue'
-              when spent_hours == estimated_hours
-                'hours_complete'
-              else
-                'hours_on_schedule'
-              end
-            end
-
-            def issue_estimated_hours_css_for(estimated_hours, spent_hours)
-              return '' unless (estimated_hours && spent_hours) && (spent_hours == estimated_hours)
-              'hours_complete'
-            end
-
+        <% @relations.each do |relation|
             other_issue = relation.other_issue(@issue)
-            estimated_hours = other_issue.estimated_hours
-            spent_hours = other_issue.spent_hours
+            estimated_hours = other_issue.estimated_hours.round 2
+            spent_hours = other_issue.spent_hours.round 2
             estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
-            spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours
-          %>
+            spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours %>
           <tr class="issue status-<%= other_issue.status.id %> hascontextmenu" id="relation-<%= relation.id %>">
             <td class="subject">
               <%= l(relation.label_for(@issue)) %>
