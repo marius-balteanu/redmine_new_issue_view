@@ -30,7 +30,13 @@
     <% previous_group = group %>
   <% end %>
   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-    <%= raw query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\"><span>#{column_content(column, issue)}</span></td>"}.join %>
+    <%= raw query.inline_columns.map {|column|
+        if column.name == :subject
+          "<td class=\"#{column.css_classes}\"><span>#{column_content(column, issue)} #{ call_hook :blocked_reason_tag_for, issue: issue }</span></td>"
+        else
+          "<td class=\"#{column.css_classes}\"><span>#{column_content(column, issue)}</span></td>"
+        end
+      }.join %>
     <td class="checkbox hide-when-print">
       <%= check_box_tag("ids[]", issue.id, false, :id => nil) %>
     </td>
