@@ -27,7 +27,7 @@
         <% @relations.each do |relation|
             other_issue = relation.other_issue(@issue)
             estimated_hours = round_or_nill other_issue.estimated_hours, 2
-            if estimated_hours || child.total_spent_hours != 0
+            if estimated_hours || other_issue.total_spent_hours != 0
               spent_hours = round_or_nill other_issue.spent_hours, 2
             end
             estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
