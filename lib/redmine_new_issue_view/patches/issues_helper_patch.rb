@@ -8,7 +8,7 @@ module NewIssueView
           def modified_link_to_issue(issue, options = {})
             title = nil
             subject = nil
-            text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}:"
+            text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}"
             if options[:subject] == false
               title = issue.subject.truncate(60)
             else
@@ -17,10 +17,10 @@ module NewIssueView
                 subject = subject.truncate(truncate_length)
               end
             end
+            text << ": #{ subject }" if subject
             only_path = options[:only_path].nil? ? true : options[:only_path]
-            s = link_to(text, issue_path(issue, :only_path => only_path),
-                        :class => issue.css_classes + ' list_title', :title => title)
-            s << link_to(" #{subject}", issue_path(issue, :only_path => only_path), :title => title ) if subject
+            s = link_to(text, issue_url(issue, :only_path => only_path),
+                        :class => issue.css_classes, :title => title)
             s = h("#{issue.project} - ") + s if options[:project]
             s
           end

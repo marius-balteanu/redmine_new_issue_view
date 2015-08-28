@@ -1,71 +1,59 @@
-<div class="collapsable">
-	<div class="collapsable-arrow"></div>
-	<div class="contextual">
-		<% if User.current.allowed_to?(:manage_issue_relations, @project) %>
-		  <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>
-		<% end %>
-	</div>
-	<h3 class="subtitle"><%=l(:label_related_issues)%></h3>
-</div>
-<% if @relations.present? %>
-  <form>
-    <table class="list issues">
-      <thead>
-        <tr>
-          <th><%= t 'views.table_headers.subject' %></td>
-          <th><%= t 'views.table_headers.status' %></td>
-          <th><%= t 'views.table_headers.assignee' %></td>
-          <th><%= t 'views.table_headers.estimated' %></td>
-          <th><%= t 'views.table_headers.spent' %></td>
-          <th><%= t 'views.table_headers.unlink' %></td>
-          <th><%= link_to image_tag('toggle_check.png'), {},
-                              :onclick => 'toggleIssuesSelection(this); return false;',
-                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @relations.each do |relation|
-            other_issue = relation.other_issue(@issue)
-            estimated_hours = round_or_nill other_issue.estimated_hours, 2
-            if estimated_hours || other_issue.total_spent_hours != 0
-              spent_hours = round_or_nill other_issue.spent_hours, 2
-            end
-            estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
-            spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours %>
-          <tr class="issue status-<%= other_issue.status.id %> hascontextmenu" id="relation-<%= relation.id %>">
-            <td class="subject">
-              <%= l(relation.label_for(@issue)) %>
-              <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
-              <%= h(other_issue.project) + ' - ' if Setting.cross_project_issue_relations? %>
-              <%= link_to("#{other_issue.tracker.name} ##{other_issue.id}:", issue_path(other_issue),
-                              :class => other_issue.css_classes, :title => title) %>
-              <%= link_to("#{other_issue.subject}", issue_path(other_issue),
-                              :title => title) %>
-              <%= call_hook :blocked_reason_tag_for, issue: other_issue %>
-            </td>
-            <td class="status"><%=h other_issue.status.name %></td>
-            <td class="assignee">
-              <%= link_to_user(other_issue.assigned_to) %>
-            </td>
-            <td class="estimated <%= estimated_hours_css %>">
-              <%= estimated_hours %>
-            </td>
-            <td class="spent  <%= spent_hours_css %>">
-              <%= spent_hours %>
-            </td>
-            <td class="buttons"><%= link_to image_tag('link_break.png'),
-                                            relation_path(relation),
-                                            :remote => true,
-                                            :method => :delete,
-                                            :data => {:confirm => l(:text_are_you_sure)},
-                                            :title => l(:label_relation_delete) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
-            <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </form>
+<div class="contextual">
+<% if User.current.allowed_to?(:manage_issue_relations, @project) %>
+  <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>
 <% end %>
+</div>
+
+<p><strong><%=l(:label_related_issues)%></strong></p>
+
+<% if @relations.present? %>
+<form>
+<table class="list issues">
+  <thead>
+    <tr>
+      <th><%= link_to image_tag('toggle_check.png'), {},
+                          :onclick => 'toggleIssuesSelection(this); return false;',
+                          :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
+      <th><%= t 'views.table_headers.subject' %></th>
+      <th><%= t 'views.table_headers.status' %></th>
+      <th><%= t 'views.table_headers.assignee' %></th>
+      <th><%= t 'views.table_headers.estimated' %></th>
+      <th><%= t 'views.table_headers.spent' %></th>
+      <th><%= t 'views.table_headers.unlink' %></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @relations.each do |relation| %>
+  <% other_issue = relation.other_issue(@issue)
+      estimated_hours = round_or_nill other_issue.estimated_hours, 2
+      if estimated_hours || other_issue.total_spent_hours != 0
+        spent_hours = round_or_nill other_issue.spent_hours, 2
+      end
+      estimated_hours_css = issue_estimated_hours_css_for estimated_hours, spent_hours
+      spent_hours_css = issue_spent_hours_css_for estimated_hours, spent_hours -%>
+  <tr class="issue hascontextmenu" id="relation-<%= relation.id %>">
+  <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
+  <td class="subject" style="width: 50%">
+    <%= relation.to_s(@issue) {|other| modified_link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
+    <%= call_hook :blocked_reason_tag_for, issue: other_issue %>
+  </td>
+  <td class="status"><%= other_issue.status.name %></td>
+  <td class="assignee"><%= link_to_user(other_issue.assigned_to) %></td>
+  <td class="estimated <%= estimated_hours_css %>"><%= estimated_hours %></td>
+  <td class="spent  <%= spent_hours_css %>"><%= spent_hours %></td>
+  <td class="buttons"><%= link_to image_tag('link_break.png'),
+                                  relation_path(relation),
+                                  :remote => true,
+                                  :method => :delete,
+                                  :data => {:confirm => l(:text_are_you_sure)},
+                                  :title => l(:label_relation_delete) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+</form>
+<% end %>
+
 <%= form_for @relation, {
                  :as => :relation, :remote => true,
                  :url => issue_relations_path(@issue),
