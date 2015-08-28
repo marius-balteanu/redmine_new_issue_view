@@ -38,3 +38,8 @@
 a.add_comment_button:link, a.add_comment_button:visited {
   color: #222;
 }
+
+/* A small indentation for the closest parent when in a 3 issue hierarchy */
+.controller-issues.action-show .issue .subject > div > div > p a {
+  margin-left: 10px;
+}

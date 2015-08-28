@@ -35,8 +35,8 @@ module NewIssueView
               <thead>
                 <tr>
                   <th>#{ link_to image_tag('toggle_check.png'), {},
-                                        :onclick => 'toggleIssuesSelection(this); return false;',
-                                        :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" }</th>
+                            :onclick => 'toggleIssuesSelection(this); return false;',
+                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" }</th>
                   <th>#{ t 'views.table_headers.subject' }</th>
                   <th>#{ t 'views.table_headers.status' }</th>
                   <th>#{ t 'views.table_headers.assignee' }</th>
