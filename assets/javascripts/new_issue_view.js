@@ -5,14 +5,7 @@ $(document).ready(function(){
     }
   });
 
-  var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
   var top_edit_button = $('.contextual .action_edit');
-
-  bottom_comment_button.click(function(event) {
-    event.preventDefault();
-    showAndScrollTo("update", "issue_notes");
-    $('#update #issue-form .box .tabular').hide();
-  });
 
   top_edit_button.click(function(event) {
     event.preventDefault();
