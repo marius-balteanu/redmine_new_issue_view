@@ -15,7 +15,9 @@ module NewIssueView
           when :id
             link_to value, issue_path(issue)
           when :subject
-            link_to value + " (#{issue.id})", issue_path(issue)
+            link_to_issue issue, tracker: false
+          when :parent
+            value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
           when :spent_hours
             issue.total_spent_hours
           when :description

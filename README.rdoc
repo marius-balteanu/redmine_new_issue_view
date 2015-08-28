@@ -1,3 +1,0 @@
-= redmine_view_issue
-
-Description goes here
