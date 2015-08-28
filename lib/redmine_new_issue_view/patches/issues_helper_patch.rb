@@ -1,5 +1,3 @@
-require_dependency 'issues_helper'
-
 module NewIssueView
   module Patches
     module IssuesHelperPatch
@@ -7,7 +5,7 @@ module NewIssueView
         base.class_eval do
           unloadable
 
-          def modified_link_to_issue(issue, options={})
+          def modified_link_to_issue(issue, options = {})
             title = nil
             subject = nil
             text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}:"
@@ -54,6 +52,6 @@ module NewIssueView
   end
 end
 
-unless IssuesHelper.included_modules.include? NewIssueView::Patches::IssuesHelperPatch
-  IssuesHelper.send :include, NewIssueView::Patches::IssuesHelperPatch
-end
+base = IssuesHelper
+new_module = NewIssueView::Patches::IssuesHelperPatch
+base.send :include, new_module unless base.included_modules.include? new_module

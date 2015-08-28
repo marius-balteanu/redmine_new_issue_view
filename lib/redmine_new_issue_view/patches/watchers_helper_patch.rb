@@ -1,5 +1,3 @@
-require_dependency 'watchers_helper'
-
 module NewIssueView
   module Patches
     module WatchersHelperPatch
@@ -33,6 +31,6 @@ module NewIssueView
   end
 end
 
-unless WatchersHelper.included_modules.include? NewIssueView::Patches::WatchersHelperPatch
-  WatchersHelper.send :include, NewIssueView::Patches::WatchersHelperPatch
-end
+base = WatchersHelper
+new_module = NewIssueView::Patches::WatchersHelperPatch
+base.send :include, new_module unless base.included_modules.include? new_module

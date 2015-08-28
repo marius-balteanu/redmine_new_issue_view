@@ -1,5 +1,3 @@
-require_dependency 'queries_helper'
-
 module NewIssueView
   module Patches
     module QueriesHelperPatch
@@ -40,6 +38,6 @@ module NewIssueView
   end
 end
 
-unless QueriesHelper.included_modules.include? NewIssueView::Patches::QueriesHelperPatch
-  QueriesHelper.send :include, NewIssueView::Patches::QueriesHelperPatch
-end
+base = QueriesHelper
+new_module = NewIssueView::Patches::QueriesHelperPatch
+base.send :include, new_module unless base.included_modules.include? new_module

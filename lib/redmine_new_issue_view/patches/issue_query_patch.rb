@@ -1,5 +1,3 @@
-require_dependency 'issue_query'
-
 module NewIssueView
   module Patches
     module IssueQueryPatch
@@ -16,6 +14,6 @@ module NewIssueView
   end
 end
 
-unless IssueQuery.included_modules.include? NewIssueView::Patches::IssueQueryPatch
-  IssueQuery.send :include, NewIssueView::Patches::IssueQueryPatch
-end
+base = IssueQuery
+new_module = NewIssueView::Patches::IssueQueryPatch
+base.send :include, new_module unless base.included_modules.include? new_module
