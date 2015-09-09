@@ -1,4 +1,5 @@
 en:
+  target_version_status: 'Target Version Status'
   views:
     table_headers:
       subject: Subject
