@@ -1,4 +1,4 @@
-module NewIssueView
+module RedmineNewIssueView
   module Patches
     module IssuesHelperPatch
       def self.included(base)
@@ -97,5 +97,5 @@ module NewIssueView
 end
 
 base = IssuesHelper
-new_module = NewIssueView::Patches::IssuesHelperPatch
-base.send :include, new_module unless base.included_modules.include? new_module
+patch = RedmineNewIssueView::Patches::IssuesHelperPatch
+base.send :include, patch unless base.included_modules.include? patch

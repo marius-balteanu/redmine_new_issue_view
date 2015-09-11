@@ -1,4 +1,4 @@
-module NewIssueView
+module RedmineNewIssueView
   module Patches
     module WatchersHelperPatch
       def self.included(base)
@@ -32,5 +32,5 @@ module NewIssueView
 end
 
 base = WatchersHelper
-new_module = NewIssueView::Patches::WatchersHelperPatch
-base.send :include, new_module unless base.included_modules.include? new_module
+patch = RedmineNewIssueView::Patches::WatchersHelperPatch
+base.send :include, patch unless base.included_modules.include? patch
