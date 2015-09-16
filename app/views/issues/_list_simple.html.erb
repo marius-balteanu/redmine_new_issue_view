@@ -17,7 +17,7 @@
       <td class="project"><%= link_to_project(issue.project) %></td>
       <td class="tracker"><span><%= issue.tracker %></span></td>
       <td class="subject"><span>
-        <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> (<%= issue.status %>)
+        <%= link_to_issue issue, tracker: false %> <%= call_hook :issue_list_subject_column, issue: issue %>
       </span></td>
     </tr>
     <% end %>
