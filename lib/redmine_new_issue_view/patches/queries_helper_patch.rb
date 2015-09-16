@@ -31,6 +31,8 @@ module RedmineNewIssueView
             content_tag('span',
               (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
               :class => value.css_classes_for(issue))
+          when :tracker, :status
+            content_tag 'span', format_object(value)
           else
             format_object(value)
           end
