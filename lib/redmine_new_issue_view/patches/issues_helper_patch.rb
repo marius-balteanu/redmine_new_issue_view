@@ -45,7 +45,7 @@ module RedmineNewIssueView
                 </tr>
               </thead>"
             issue_list(issue.descendants.visible.preload(:status, :priority, :tracker).sort_by(&:lft)) do |child, level|
-              css_class = "issue issue-#{child.id} hascontextmenu"
+              css_class = "issue issue-#{child.id} status-#{ child.status_id } hascontextmenu"
               css_class << " idnt idnt-#{level}" if level > 0
               estimated_hours = round_or_nill child.estimated_hours, 2
               if estimated_hours || child.total_spent_hours != 0
