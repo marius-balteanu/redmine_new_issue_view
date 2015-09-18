@@ -5,14 +5,7 @@ $(document).ready(function(){
     }
   });
 
-  var bottom_comment_button = $('.bottom_page_buttons .add_comment_button');
   var top_edit_button = $('.contextual .action_edit');
-
-  bottom_comment_button.click(function(event) {
-    event.preventDefault();
-    showAndScrollTo("update", "issue_notes");
-    $('#update #issue-form .box .tabular').hide();
-  });
 
   top_edit_button.click(function(event) {
     event.preventDefault();
@@ -48,10 +41,13 @@ function set_buttons_panel_location (panel, offset, menu_height, btn_form) {
   if ($(window).scrollTop() - offset > 0 && !btn_form.is(':visible')) {
     content = $('#content');
     nxt = panel.next('.issue');
-    panel.addClass('lb_fixed').css({ left: content.offset().left, top: menu_height, width: content.outerWidth() - 6, paddingTop: 5, paddingLeft: 3, paddingRight: 3 });
+    panel.addClass('lb_fixed').css({ left: content.offset().left,
+      top: menu_height, width: content.outerWidth() - 6, paddingTop: 5,
+      paddingLeft: 3, paddingRight: 3 });
     nxt.css({ marginTop: panel.height() });
   } else {
-    panel.removeClass("lb_fixed").css({ top: 'auto', width: 'auto', paddingTop: 0, paddingLeft: 0, paddingRight: 0 });
+    panel.removeClass("lb_fixed").css({ top: 'auto', width: 'auto',
+      paddingTop: 0, paddingLeft: 0, paddingRight: 0 });
     panel.next().css({ marginTop: 0 });
   }
 }

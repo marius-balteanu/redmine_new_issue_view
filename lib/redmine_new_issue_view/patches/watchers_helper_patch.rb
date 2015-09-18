@@ -1,6 +1,4 @@
-require_dependency 'watchers_helper'
-
-module NewIssueView
+module RedmineNewIssueView
   module Patches
     module WatchersHelperPatch
       def self.included(base)
@@ -18,7 +16,7 @@ module NewIssueView
           return '' unless objects.any?
 
           watched = Watcher.any_watched?(objects, user)
-          css = [watcher_css(objects), watched ? 'icon icon-del' : 'icon icon-fav-off'].join(' ')
+          css = [watcher_css(objects), watched ? 'icon icon-del fa fa-times' : 'icon icon-fav-off fa fa-star'].join(' ')
           text = watched ? l(:button_unwatch) : l(:button_watch)
           url = watch_path(
             :object_type => objects.first.class.to_s.underscore,
@@ -26,13 +24,13 @@ module NewIssueView
           )
           method = watched ? 'delete' : 'post'
 
-          link_to content_tag('span', text), url, :remote => true, :method => method, :class => css
+          link_to text, url, :remote => true, :method => method, :class => css
         end
       end
     end
   end
 end
 
-unless WatchersHelper.included_modules.include? NewIssueView::Patches::WatchersHelperPatch
-  WatchersHelper.send :include, NewIssueView::Patches::WatchersHelperPatch
-end
+base = WatchersHelper
+patch = RedmineNewIssueView::Patches::WatchersHelperPatch
+base.send :include, patch unless base.included_modules.include? patch

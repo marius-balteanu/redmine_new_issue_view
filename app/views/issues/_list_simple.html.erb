@@ -2,26 +2,23 @@
 <%= form_tag({}) do %>
   <table class="list issues">
     <thead><tr>
-    <th><%= link_to image_tag('toggle_check.png'), {},
-                              :onclick => 'toggleIssuesSelection(this); return false;',
-                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %></th>
     <th>#</th>
     <th><%=l(:field_project)%></th>
-    <th><%=l(:field_tracker)%></th>
-    <th><%=l(:field_subject)%></th>
+    <th class="tracker"><%=l(:field_tracker)%></th>
+    <th class="subject"><%=l(:field_subject)%></th>
     </tr></thead>
     <tbody>
     <% for issue in issues %>
     <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
-      <td> <%= check_box_tag("ids[]", issue.id, false, :id => nil) %> </td>
       <td class="id">
+        <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) %>
         <%= link_to(issue.id, issue_path(issue)) %>
       </td>
       <td class="project"><%= link_to_project(issue.project) %></td>
-      <td class="tracker"><%= issue.tracker %></td>
-      <td class="subject">
-        <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> (<%= issue.status %>) <%= call_hook :blocked_reason_tag_for, issue: issue %>
-      </td>
+      <td class="tracker"><span><%= issue.tracker %></span></td>
+      <td class="subject"><span>
+        <%= link_to_issue issue, tracker: false %> <%= call_hook :issue_list_subject_column, issue: issue %>
+      </span></td>
     </tr>
     <% end %>
     </tbody>

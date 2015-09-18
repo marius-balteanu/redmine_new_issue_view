@@ -1,6 +1,4 @@
-require_dependency 'queries_helper'
-
-module NewIssueView
+module RedmineNewIssueView
   module Patches
     module QueriesHelperPatch
       def self.included(base)
@@ -17,7 +15,9 @@ module NewIssueView
           when :id
             link_to value, issue_path(issue)
           when :subject
-            link_to value + " (#{issue.id})", issue_path(issue)
+            link_to_issue issue, tracker: false
+          when :parent
+            value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
           when :spent_hours
             issue.total_spent_hours
           when :description
@@ -31,6 +31,8 @@ module NewIssueView
             content_tag('span',
               (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
               :class => value.css_classes_for(issue))
+          when :tracker, :status
+            content_tag 'span', format_object(value)
           else
             format_object(value)
           end
@@ -40,6 +42,6 @@ module NewIssueView
   end
 end
 
-unless QueriesHelper.included_modules.include? NewIssueView::Patches::QueriesHelperPatch
-  QueriesHelper.send :include, NewIssueView::Patches::QueriesHelperPatch
-end
+base = QueriesHelper
+patch = RedmineNewIssueView::Patches::QueriesHelperPatch
+base.send :include, patch unless base.included_modules.include? patch
