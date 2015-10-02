@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  if (('#button_panel').length) {
+  if ($('#button_panel').length) {
     addBottomCommentButton();
   }
 });
