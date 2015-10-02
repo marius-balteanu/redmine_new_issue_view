@@ -10,7 +10,7 @@ module RedmineNewIssueView
           def link_to_issue(issue, options = {})
             title = nil
             subject = nil
-            text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}"
+            text = options[:tracker] == false ? "#{issue.id}" : "#{issue.tracker} ##{issue.id}"
             if options[:subject] == false
               title = issue.subject.truncate(60)
             else
@@ -20,7 +20,7 @@ module RedmineNewIssueView
               end
             end
             # The subject is added at the end of the text
-            text << ": #{ subject }" if subject
+            text = "#{ subject }" << " (#{ text })" if subject
             only_path = options[:only_path].nil? ? true : options[:only_path]
             s = link_to(text, issue_url(issue, :only_path => only_path),
                         :class => issue.css_classes, :title => title)
