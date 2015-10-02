@@ -96,6 +96,7 @@ module RedmineNewIssueView
   end
 end
 
-base = IssuesHelper
 patch = RedmineNewIssueView::Patches::IssuesHelperPatch
-base.send :include, patch unless base.included_modules.include? patch
+[IssuesHelper, IssueRelationsHelper].each do |base|
+  base.send :include, patch unless base.included_modules.include? patch
+end
