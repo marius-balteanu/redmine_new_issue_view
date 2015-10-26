@@ -14,7 +14,8 @@ $(document).ready(function(){
       data: function (params) {
         return {
           project_id: window.project_id, // search term
-          term: params
+          term: params,
+          scope: 'tree'
         };
       },
       results: function (data, page) {
