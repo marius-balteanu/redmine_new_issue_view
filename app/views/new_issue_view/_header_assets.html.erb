@@ -1,2 +1,4 @@
 <%=  stylesheet_link_tag 'new_issue_view', plugin: :redmine_new_issue_view %>
 <%=  javascript_include_tag 'new_issue_view', plugin: :redmine_new_issue_view %>
+
+<% (javascript_tag "var project_id = #{@project.id}") if @project %>

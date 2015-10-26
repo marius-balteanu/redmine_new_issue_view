@@ -2,6 +2,49 @@ $(document).ready(function(){
   if ($('#button_panel').length) {
     addBottomCommentButton();
   }
+
+  var parentTaskField = $('#issue_parent_issue_id');
+  var parentTask = parentTaskField.val();
+
+  parentTaskField.select2({
+    ajax: {
+      url: "/autocomplete/parents",
+      dataType: 'json',
+      quietMillis: 250,
+      data: function (params) {
+        return {
+          project_id: window.project_id, // search term
+          term: params
+        };
+      },
+      results: function (data, page) {
+        var myResults = [];
+        $.each(data, function (index, item) {
+            var issues = [];
+            $.each (item, function(issue_index, issue) {
+              issues.push({
+                'id': issue.id,
+                'text': issue.subject
+              });
+            });
+            myResults.push({
+                'text': index,
+                'children': issues
+            });
+        });
+        return {results: myResults};
+      },
+      cache: true
+    },
+    initSelection: function(element, callback) {
+      callback({id: parentTask, text: parentTask });
+    },
+    allowClear: true,
+    width: '200',
+    dropdownAutoWidth: true,
+    minimumInputLength: 1,
+    placeholder: "None"
+  })
 });
 
 function addBottomCommentButton(){
