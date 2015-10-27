@@ -7,9 +7,10 @@ class NewIssueViewController < ApplicationController
     if q.present?
       scope = Issue.cross_project_scope(@project, params[:scope]).visible
       if q.match(/\A#?(\d+)\z/)
-        @issues << scope.find_by_id($1.to_i)
+        @issues << scope.joins(:status).select(:id, :subject, :tracker_id, :status_id, "#{IssueStatus.table_name}.name").find_by_id($1.to_i)
+      else
+        @issues += scope.joins(:status).select(:id, :subject, :tracker_id, :status_id, "#{IssueStatus.table_name}.name").where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).to_a
       end
-      @issues += scope.joins(:status).select(:id, :subject, :tracker_id, "#{IssueStatus.table_name}.name").where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).to_a
       @issues.compact!
     end
     render json: @issues.group_by {|i| i.tracker.name}

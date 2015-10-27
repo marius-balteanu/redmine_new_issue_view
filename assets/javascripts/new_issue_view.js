@@ -24,8 +24,8 @@ $(document).ready(function(){
             var issues = [];
             $.each (item, function(issue_index, issue) {
               issues.push({
-                'id': issue.  id,
-                'text': '<span class="id"> #' + issue.id + ': </span>' + issue.subject + ' <span class="status">' + issue.name + '</span>'
+                'id': issue.id,
+                'text': issue.subject + ' (' + issue.id + ') <span class="status status-' + issue.status_id + '">' + issue.name + '</span>'
               });
             });
             myResults.push({
@@ -40,7 +40,12 @@ $(document).ready(function(){
     initSelection: function(element, callback) {
       callback({id: parentTask, text: parentTask });
     },
-    escapeMarkup: function (markup) { return markup; },
+    formatResult: function(item) {
+      return item.text;
+    },
+    formatSelection: function(item) {
+      return item.id;
+    },
     allowClear: true,
     width: '200',
     dropdownAutoWidth: true,
