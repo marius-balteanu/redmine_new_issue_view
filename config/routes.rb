@@ -1,1 +1,0 @@
-get 'autocomplete/parents', to: 'new_issue_view#parents'
