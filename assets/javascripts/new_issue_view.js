@@ -1,8 +1,19 @@
+var oldReplaceIssueFormWith = replaceIssueFormWith;
+
+replaceIssueFormWith = function(html) {
+  oldReplaceIssueFormWith(html);
+  addS2ToParentTaskField();
+}
+
+
 $(document).ready(function(){
   if ($('#button_panel').length) {
     addBottomCommentButton();
   }
+  addS2ToParentTaskField();
+});
 
+function addS2ToParentTaskField() {
   var parentTaskField = $('#issue_parent_issue_id');
   var parentTask = parentTaskField.val();
 
@@ -52,7 +63,7 @@ $(document).ready(function(){
     minimumInputLength: 1,
     placeholder: "None"
   })
-});
+}
 
 function addBottomCommentButton(){
   var commentButton = '<input type="button" id="bottom_comment" class="button" value="Add Comment">';
