@@ -9,7 +9,8 @@ Redmine::Plugin.register :redmine_new_issue_view do
   name 'New Issue View'
   author 'Zitec'
   description 'Overrides for redmine templates and methods'
-  version '1.0.1'
+  version '1.1.0'
   url 'https://github.com/sdwolf/redmine_new_issue_view'
   author_url 'http://www.zitec.com'
+  settings partial: 'new_issue_view/plugin_settings'
 end
