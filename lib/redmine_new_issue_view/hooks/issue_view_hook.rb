@@ -8,7 +8,7 @@ class IssueViewHook < Redmine::Hook::ViewListener
       field_id = settings['custom_field_id']
       preference = CustomValue.where(customized_type: 'Principal',
         customized_id: User.current.id, custom_field_id: field_id).first
-      return result unless preference
+      return result if !preference || !preference.value
       partial = 'issue_view_' << preference.value.downcase.split(' ').join('_') << '.css'
       result << controller.render_to_string(
           partial: 'new_issue_view/user_specific_assets',
