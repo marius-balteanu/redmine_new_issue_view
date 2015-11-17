@@ -28,16 +28,16 @@ class QuickIssuesController < ApplicationController
 
   def find_parent
     @parent = Issue.where(id: params[:parent]).first
-    unless @assignee
+    unless @parent
       render json: { error: 'Parent issue not found' }, status: 400
     end
   end
 
   def find_tracker
-    trackers = Tracker.where("name LIKE ?", "#{data[:tracker]}%").to_a
+    trackers = Tracker.where('name LIKE ?', "#{data[:tracker]}%").limit(2).to_a
     if trackers.size == 0
       render json: { error: 'No matching tracker found' }, status: 400
-    elsif trackers.size > 1
+    elsif trackers.size == 2
       render json: { error: 'More than one tracker found' }, status: 400
     else
       @tracker = trackers.first
