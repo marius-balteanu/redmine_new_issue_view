@@ -89,7 +89,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddInput = function () {
-    var input = $('<input type="text">');
+    var input = $('<input class="wiki-edit" type="text">');
     input.on('keypress', function (event) {
       if (event.which == 13 || event.keyCode == 13) {
         this.submitQuickAddForm();
@@ -99,9 +99,10 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddForm = function () {
-    var form = $('<div></div>');
+    var form = $('<span class="quick-add-form"></span>');
     form.append(this.input);
     form.append(this.createCancelButton());
+    initMentionInput(this.input);
     form.hide();
     return form
   };
