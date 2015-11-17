@@ -14,7 +14,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var element = elements[0];
     var matcher = /^[A-Z][a-zA-Z]*:$/
     if (matcher.test(element)) {
-      content.values.tracker_type = element;
+      content.values.tracker = element.slice(0, -1);
     } else {
       content.error = 'Invalid tracker matcher: ' + element;
     }
@@ -39,7 +39,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var element = elements[elements.length - 2];
     var matcher = /^\[~[a-z]+\.[a-z]+\]$/
     if (matcher.test(element)) {
-      content.values.assignee = element;
+      content.values.assignee = element.slice(2, -1);
     } else {
       content.error = 'No assignee specified';
     }
@@ -50,7 +50,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var element = elements[elements.length - 1];
     var matcher = /^~\d+(\.?\d+)?$/
     if (matcher.test(element)) {
-      content.values.estimation = element;
+      content.values.estimation = element.slice(1);
     } else {
       content.error = 'No estimation specified';
     }
@@ -72,7 +72,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
       alert(content.error);
     } else {
       var parent = window.location.pathname.split('/')[2];
-      var data = { issue: { data: content, parent: parent } };
+      var data = { data: content.values, parent: parent };
       var request = $.ajax({
         url: '/issues/quick_add',
         method: 'POST',
@@ -83,7 +83,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
         location.reload(true);
       });
       request.fail(function (response) {
-        console.log(response);
+        alert(response.responseJSON.error);
       });
     }
   };
