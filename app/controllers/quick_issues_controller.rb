@@ -4,15 +4,7 @@ class QuickIssuesController < ApplicationController
   before_action :find_assignee
 
   def add
-    @issue = Issue.new(
-      assigned_to_id:  @assignee.id,
-      author_id:       User.current.id,
-      estimated_hours: data[:estimation],
-      parent_id:       @parent.id,
-      project_id:      @parent.project_id,
-      subject:         data[:subject],
-      tracker_id:      @tracker.id
-    )
+    @issue = Issue.new(issue_params)
     if @issue.save
       render json: { success: 'Success!' }
     else
@@ -21,6 +13,18 @@ class QuickIssuesController < ApplicationController
   end
 
   private
+
+  def issue_params
+    @issue_params ||= {
+      assigned_to_id:  @assignee.id,
+      author_id:       User.current.id,
+      estimated_hours: data[:estimation],
+      parent_id:       @parent.id,
+      project_id:      @parent.project_id,
+      subject:         data[:subject],
+      tracker_id:      @tracker.id
+    }
+  end
 
   def data
     @data ||= params[:data]
