@@ -58,7 +58,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
 
   def.prepareContent = function (value) {
     var content = { error: null, values: {} }
-    var tokens = value.trim().split(' ');
+    var tokens = value.trim().split(/\s+/);
     this.validateType(content, tokens);
     this.validateSubject(content, tokens);
     this.validateAssignee(content, tokens);
