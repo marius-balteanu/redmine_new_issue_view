@@ -1,6 +1,87 @@
-$(document).ready(function(){
+var QuickSubtasksForm = (function (oldSelf, $) {
+  var self = oldSelf || function (element) {
+    this.root = element;
+    this.button = this.createQuickAddButton();
+    this.input = this.createQuickAddInput();
+    this.form = this.createQuickAddForm();
+    this.initialize();
+  };
+
+  var def = self.prototype;
+
+  def.submitQuickAddForm = function () {
+    var content = this.input.val();
+    var parent = window.location.pathname.split('/')[2];
+    var data = { issue: { data: content, parent: parent } };
+    var request = $.ajax({
+      url: '/issues/quick_add',
+      method: 'POST',
+      data: data,
+      dataType: 'JSON'
+    });
+    request.done(function (response) {
+      location.reload(true);
+    });
+    request.fail(function (response) {
+      console.log(response);
+    });
+  };
+
+  def.createQuickAddInput = function () {
+    var input = $('<input type="text">');
+    input.on('keypress', function (event) {
+      this.submitQuickAddForm();
+    }.bind(this));
+    return input;
+  };
+
+  def.createQuickAddForm = function () {
+    var form = $('<div></div>');
+    form.append(this.input);
+    form.append(this.createCancelButton());
+    form.hide();
+    return form
+  };
+
+  def.createQuickAddButton = function () {
+    var button = $('<a href="#">Quick Add</a>');
+    button.on('click', function (event) {
+      event.preventDefault();
+      this.button.hide();
+      this.form.show();
+      this.input.focus();
+    }.bind(this));
+    return button;
+  };
+
+  def.createCancelButton = function () {
+    var button = $('<a href="#">X</a>');
+    button.on('click', function (event) {
+      event.preventDefault();
+      this.form.hide();
+      this.button.show();
+    }.bind(this));
+    return button;
+  };
+
+  def.initialize = function () {
+    this.root.first().find('.contextual a').remove();
+    this.root.after(this.button);
+    this.root.after(this.form);
+  };
+
+  return self;
+}(QuickSubtasksForm, $));
+
+
+$(function(){
   if ($('#button_panel').length) {
     addBottomCommentButton();
+  }
+
+  var subtaskPartial = $('#issue_tree');
+  if (subtaskPartial.length !== 0) {
+    var subtasksForm = new QuickSubtasksForm(subtaskPartial);
   }
 });
 
