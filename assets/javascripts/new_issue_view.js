@@ -136,8 +136,6 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.initialize = function () {
-    console.log(this.root);
-    this.root.first().find('.contextual a').remove();
     this.root.append(this.button);
     this.root.append(this.form);
   };
