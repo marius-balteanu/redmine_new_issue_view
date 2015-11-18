@@ -89,8 +89,9 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddInput = function () {
-    var placeholder = 'T: Awesome issue subject < type @ to mention and press enter > < type ~1 for a 1 hour estimation >'
+    var placeholder = 'T: Awesome issue subject (@ to assign) (~1 for a 1 hour estimation)';
     var input = $('<input class="wiki-edit" type="text" placeholder="' + placeholder + '">');
+
     input.on('keydown', function (event) {
       if (event.which == 27 || event.keyCode == 27) {
         this.form.hide();
@@ -107,8 +108,10 @@ var QuickSubtasksForm = (function (oldSelf, $) {
       }
     }.bind(this));
     input.on('blur', function (event) {
-      this.form.hide();
-      this.button.show();
+      if (input.val().length === 0) {
+        this.form.hide();
+        this.button.show();
+      }
     }.bind(this));
     return input;
   };
@@ -122,7 +125,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddButton = function () {
-    var button = $('<a href="#">Add Subtask</a>');
+    var button = $('<a href="#" class="fa fa-plus-circle">Quickly add subtask</a>');
     button.on('click', function (event) {
       event.preventDefault();
       this.button.hide();
@@ -133,9 +136,10 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.initialize = function () {
+    console.log(this.root);
     this.root.first().find('.contextual a').remove();
-    this.root.after(this.button);
-    this.root.after(this.form);
+    this.root.append(this.button);
+    this.root.append(this.form);
   };
 
   return self;
