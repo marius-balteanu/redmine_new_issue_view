@@ -12,7 +12,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.validateType = function (content, elements) {
     if (content.error !== null) { return; }
     var element = elements[0];
-    var matcher = /^[A-Z][a-zA-Z]*:$/
+    var matcher = /^[a-zA-Z]*:$/
     if (matcher.test(element)) {
       content.values.tracker = element.slice(0, -1);
     } else {
@@ -25,7 +25,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var subject = elements.reduce(function(result, value, index, array) {
       var hasEstimation = index >= array.length - 2 && /^[\[~|~]/.test(value);
       if (index === 0 || hasEstimation) { return result; }
-      return result + value;
+      return result + ' ' + value;
     }, []);
     if (subject.length !== 0) {
       content.values.subject = subject;
@@ -34,25 +34,22 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     }
   };
 
-  def.validateAssignee = function (content, elements) {
-    if (content.error !== null) { return; }
-    var element = elements[elements.length - 2];
-    var matcher = /^\[~[a-z]+\.[a-z]+\]$/
-    if (matcher.test(element)) {
-      content.values.assignee = element.slice(2, -1);
-    } else {
-      content.error = 'No assignee specified';
+  def.validateAssigneeAndEstimation = function (content, elements) {
+    var last = elements[elements.length - 1];
+    var secondLast = elements[elements.length -2];
+    var assigneeMatcher = /^\[~[a-z]+\.[a-z]+\]$/;
+    var estimationMatcher = /^~(\d+(\.?\d+)?)\s?h?$/;
+    if (assigneeMatcher.test(secondLast)) {
+      content.values.assignee = secondLast.slice(2, -1);
     }
-  };
-
-  def.validateEstimation = function (content, elements) {
-    if (content.error !== null) { return; }
-    var element = elements[elements.length - 1];
-    var matcher = /^~\d+(\.?\d+)?$/
-    if (matcher.test(element)) {
-      content.values.estimation = element.slice(1);
-    } else {
-      content.error = 'No estimation specified';
+    else if (assigneeMatcher.test(last)) {
+      content.values.assignee = last.slice(2, -1);
+    }
+    if (estimationMatcher.test(secondLast)) {
+      content.values.estimation = estimationMatcher.exec(secondLast)[1];
+    }
+    else if (estimationMatcher.test(last)) {
+      content.values.estimation = estimationMatcher.exec(last)[1];
     }
   };
 
@@ -61,8 +58,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var tokens = value.trim().split(/\s+/);
     this.validateType(content, tokens);
     this.validateSubject(content, tokens);
-    this.validateAssignee(content, tokens);
-    this.validateEstimation(content, tokens);
+    this.validateAssigneeAndEstimation(content, tokens);
     return content;
   };
 
@@ -126,7 +122,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddButton = function () {
-    var button = $('<a href="#">Quick Add</a>');
+    var button = $('<a href="#">Add Subtask</a>');
     button.on('click', function (event) {
       event.preventDefault();
       this.button.hide();
