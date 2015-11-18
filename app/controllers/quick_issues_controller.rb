@@ -16,13 +16,14 @@ class QuickIssuesController < ApplicationController
 
   def issue_params
     @issue_params ||= {
-      assigned_to_id:  @assignee.id,
-      author_id:       User.current.id,
-      estimated_hours: data[:estimation],
-      parent_id:       @parent.id,
-      project_id:      @parent.project_id,
-      subject:         data[:subject],
-      tracker_id:      @tracker.id
+      assigned_to_id:   @assignee.id,
+      author_id:        User.current.id,
+      estimated_hours:  data[:estimation],
+      fixed_version_id: @parent.fixed_version_id,
+      parent_id:        @parent.id,
+      project_id:       @parent.project_id,
+      subject:          data[:subject],
+      tracker_id:       @tracker.id
     }
   end
 
@@ -38,7 +39,7 @@ class QuickIssuesController < ApplicationController
   end
 
   def find_tracker
-    trackers = Tracker.where('name LIKE ?', "#{data[:tracker]}%").limit(2).to_a
+    trackers = Tracker.where('lower(name) LIKE lower(?)', "#{data[:tracker]}%").limit(2).to_a
     if trackers.size == 0
       render json: { error: 'No matching tracker found' }, status: 400
     elsif trackers.size == 2
@@ -49,9 +50,6 @@ class QuickIssuesController < ApplicationController
   end
 
   def find_assignee
-    @assignee = User.where(login: data[:assignee]).first
-    unless @assignee
-      render json: { error: 'Assignee not found' }, status: 400
-    end
+    @assignee = User.where(login: data[:assignee]).first_or_initialize
   end
 end
