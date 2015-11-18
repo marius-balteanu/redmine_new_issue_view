@@ -39,7 +39,8 @@ class QuickIssuesController < ApplicationController
   end
 
   def find_tracker
-    trackers = Tracker.where('lower(name) LIKE lower(?)', "#{data[:tracker]}%").limit(2).to_a
+    trackers = Tracker.where('lower(name) LIKE lower(?)', "#{data[:tracker]}%")
+      .limit(2).to_a
     if trackers.size == 0
       render json: { error: 'No matching tracker found' }, status: 400
     elsif trackers.size == 2
