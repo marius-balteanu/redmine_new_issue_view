@@ -125,7 +125,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddButton = function () {
-    var button = $('<a href="#" class="fa fa-plus-circle">Quickly add subtask</a>');
+    var button = $('<a href="#" class="quick-add fa fa-plus-circle">Quickly add subtask</a>');
     button.on('click', function (event) {
       event.preventDefault();
       this.button.hide();
