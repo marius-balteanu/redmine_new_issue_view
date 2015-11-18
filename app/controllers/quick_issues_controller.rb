@@ -6,7 +6,7 @@ class QuickIssuesController < ApplicationController
   def add
     @issue = Issue.new(issue_params)
     if @issue.save
-      render json: { success: 'Success!' }
+      render json: { success: 'Success!', id: @issue.id }
     else
       render json: { error: @issue.errors.full_messages }, status: 400
     end

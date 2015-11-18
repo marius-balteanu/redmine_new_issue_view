@@ -66,7 +66,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     return content;
   };
 
-  def.submitQuickAddForm = function () {
+  def.submitQuickAddForm = function (redirect) {
     var content = this.prepareContent(this.input.val());
     if (content.error !== null) {
       alert(content.error);
@@ -80,7 +80,11 @@ var QuickSubtasksForm = (function (oldSelf, $) {
         dataType: 'JSON'
       });
       request.done(function (response) {
-        location.reload(true);
+        if (redirect) {
+          window.location.href = '/issues/' + response.id;
+        } else {
+          window.location.reload(true);
+        }
       });
       request.fail(function (response) {
         alert(response.responseJSON.error);
@@ -89,11 +93,26 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddInput = function () {
-    var input = $('<input class="wiki-edit" type="text">');
+    var placeholder = 'T: Awesome issue subject < type @ to mention and press enter > < type ~1 for a 1 hour estimation >'
+    var input = $('<input class="wiki-edit" type="text" placeholder="' + placeholder + '">');
+    input.on('keydown', function (event) {
+      if (event.which == 27 || event.keyCode == 27) {
+        this.form.hide();
+        this.button.show();
+      }
+    }.bind(this));
     input.on('keypress', function (event) {
       if (event.which == 13 || event.keyCode == 13) {
-        this.submitQuickAddForm();
+        if (event.ctrlKey) {
+          this.submitQuickAddForm(true);
+        } else {
+          this.submitQuickAddForm(false);
+        }
       }
+    }.bind(this));
+    input.on('blur', function (event) {
+      this.form.hide();
+      this.button.show();
     }.bind(this));
     return input;
   };
@@ -101,7 +120,6 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.createQuickAddForm = function () {
     var form = $('<span class="quick-add-form"></span>');
     form.append(this.input);
-    form.append(this.createCancelButton());
     initMentionInput(this.input);
     form.hide();
     return form
@@ -114,16 +132,6 @@ var QuickSubtasksForm = (function (oldSelf, $) {
       this.button.hide();
       this.form.show();
       this.input.focus();
-    }.bind(this));
-    return button;
-  };
-
-  def.createCancelButton = function () {
-    var button = $('<a href="#">X</a>');
-    button.on('click', function (event) {
-      event.preventDefault();
-      this.form.hide();
-      this.button.show();
     }.bind(this));
     return button;
   };
