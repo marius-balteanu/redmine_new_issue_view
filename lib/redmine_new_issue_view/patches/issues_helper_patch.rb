@@ -66,10 +66,6 @@ module RedmineNewIssueView
                      :class => css_class)
             end
             s << '</table></form>'
-            if Redmine::Plugin.installed?(:redmine_restrict_tracker)
-              result = issue.can_have_children?
-              s << '<input type="hidden" id="can-have-children" value="' + result.to_s + '">'
-            end
             s.html_safe
           end
 
