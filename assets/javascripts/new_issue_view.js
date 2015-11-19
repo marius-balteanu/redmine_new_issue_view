@@ -12,9 +12,14 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.validateType = function (content, elements) {
     if (content.error !== null) { return; }
     var element = elements[0];
-    var matcher = /^[a-zA-Z]*:$/
-    if (matcher.test(element)) {
-      content.values.tracker = element.slice(0, -1);
+    var matcher = /^([a-zA-Z]*:).*$/;
+    var matched = matcher.exec(element);
+    if (matched !== null) {
+      var tracker = matched[1];
+      content.values.tracker = tracker.slice(0, -1);
+      if (tracker !== element) {
+        elements.splice(1, 0, element.slice(tracker.length));
+      }
     } else {
       content.error = 'Invalid tracker matcher: ' + element;
     }
@@ -30,7 +35,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     if (subject.length !== 0) {
       content.values.subject = subject;
     } else {
-      content.error = 'Subject can not be blank'
+      content.error = 'Subject can not be blank';
     }
   };
 
@@ -149,9 +154,12 @@ $(function(){
     addBottomCommentButton();
   }
 
-  var subtaskPartial = $('#issue_tree');
-  if (subtaskPartial.length !== 0) {
-    var subtasksForm = new QuickSubtasksForm(subtaskPartial);
+  var canHaveChildren = $('#can-have-children').length !== 0;
+  if (canHaveChildren) {
+    var subtaskPartial = $('#issue_tree');
+    if (subtaskPartial.length !== 0) {
+      var subtasksForm = new QuickSubtasksForm(subtaskPartial);
+    }
   }
 });
 
