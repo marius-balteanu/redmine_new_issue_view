@@ -149,9 +149,12 @@ $(function(){
     addBottomCommentButton();
   }
 
-  var subtaskPartial = $('#issue_tree');
-  if (subtaskPartial.length !== 0) {
-    var subtasksForm = new QuickSubtasksForm(subtaskPartial);
+  var canHaveChildren = $('#can-have-children').length !== 0;
+  if (canHaveChildren) {
+    var subtaskPartial = $('#issue_tree');
+    if (subtaskPartial.length !== 0) {
+      var subtasksForm = new QuickSubtasksForm(subtaskPartial);
+    }
   }
 });
 
