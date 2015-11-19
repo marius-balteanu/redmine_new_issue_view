@@ -154,12 +154,15 @@ $(function(){
     addBottomCommentButton();
   }
 
-  var canHaveChildren = $('#can-have-children').length !== 0;
+  var canHaveChildren = $('#can-have-children').val() === 'true';
+  var subtaskPartial = $('#issue_tree');
   if (canHaveChildren) {
-    var subtaskPartial = $('#issue_tree');
     if (subtaskPartial.length !== 0) {
       var subtasksForm = new QuickSubtasksForm(subtaskPartial);
     }
+  } else {
+    subtaskPartial.next('hr').remove();
+    subtaskPartial.remove();
   }
 });
 
