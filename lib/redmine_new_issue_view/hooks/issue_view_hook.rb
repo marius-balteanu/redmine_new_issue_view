@@ -20,7 +20,11 @@ class IssueViewHook < Redmine::Hook::ViewListener
   def view_issues_show_details_bottom(context)
     issue = context[:issue]
     if Redmine::Plugin.installed?(:redmine_restrict_tracker)
-      '<input type="hidden" id="can-have-children" value="' + issue.can_have_children?.to_s + '">'
+      can_have_children = issue.can_have_children?
+      result = '<input type="hidden" id="can-have-children" value="' + can_have_children.to_s + '">'
+      if can_have_children
+        result + '<input type="hidden" id="available-children" value="' + h(issue.available_children.to_s) + '">'
+      end
     else
       ''
     end
