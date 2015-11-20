@@ -1,7 +1,7 @@
 var QuickSubtasksForm = (function (oldSelf, $) {
   var self = oldSelf || function (element) {
     this.root = element;
-    this.button = this.createQuickAddButton();
+    this.buttons = this.createQuickAddButtons();
     this.input = this.createQuickAddInput();
     this.form = this.createQuickAddForm();
     this.initialize();
@@ -100,7 +100,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     input.on('keydown', function (event) {
       if (event.which == 27 || event.keyCode == 27) {
         this.form.hide();
-        this.button.show();
+        this.buttons.show();
       }
     }.bind(this));
     input.on('keypress', function (event) {
@@ -115,7 +115,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     input.on('blur', function (event) {
       if (input.val().length === 0) {
         this.form.hide();
-        this.button.show();
+        this.buttons.show();
       }
     }.bind(this));
     return input;
@@ -129,19 +129,26 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     return form
   };
 
-  def.createQuickAddButton = function () {
-    var button = $('<a href="#" class="quick-add fa fa-plus-circle">Quickly add subtask</a>');
-    button.on('click', function (event) {
-      event.preventDefault();
-      this.button.hide();
-      this.form.show();
-      this.input.focus();
+  def.createQuickAddButtons = function () {
+    var content = $('<span>Quickly add </span>');
+    var children = JSON.parse($('#available-children').val());
+    $.each(children, function (index, value) {
+      var matcher = value[0].toLowerCase() + ':';
+      var button = $('<a href="#" data-matcher="' + matcher + '">' + value + ' </a>');
+      button.on('click', function (event) {
+        event.preventDefault();
+        this.buttons.hide();
+        this.form.show();
+        this.input.val($(event.target).data('matcher'));
+        this.input.focus();
+      }.bind(this));
+      content.append(button);
     }.bind(this));
-    return button;
+    return content;
   };
 
   def.initialize = function () {
-    this.root.append(this.button);
+    this.root.append(this.buttons);
     this.root.append(this.form);
   };
 
