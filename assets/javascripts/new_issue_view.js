@@ -171,11 +171,12 @@ $(function(){
       var bootstrapTooltip = $.fn.tooltip.noConflict();
       $( document ).tooltip({
         items: '.quick-add-form span.fa-question',
-        position: {
-          my: "left bottom+25"
-        },
+        position: { at: 'left bottom-10' },
         content: function() {
-          return "<strong>Syntax format</strong>: (type of tracker initial): Issue subject (@ to assign) (~1 for a 1 hour estimation)";
+          return "Add subtask inline: \
+          <ul><li><strong>Syntax format</strong>: (Issue type first letter): Issue subject (@ to assign) (~1 for a 1 hour estimation) </li>\
+          <li><strong>Enter</strong> to submit the form</li> \
+          <li><strong>Clear input</strong> to hide the form</li></ul>";
         }
       });
     }
