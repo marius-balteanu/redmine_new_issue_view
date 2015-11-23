@@ -94,9 +94,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.createQuickAddInput = function () {
-    var placeholder = 'T: Awesome issue subject (@ to assign) (~1 for a 1 hour estimation)';
-    var input = $('<input class="wiki-edit" type="text" placeholder="' + placeholder + '">');
-
+    var input = $('<input class="wiki-edit" type="text">');
     input.on('keydown', function (event) {
       if (event.which == 27 || event.keyCode == 27) {
         this.form.hide();
@@ -123,17 +121,21 @@ var QuickSubtasksForm = (function (oldSelf, $) {
 
   def.createQuickAddForm = function () {
     var form = $('<span class="quick-add-form"></span>');
-    form.append(this.input);
+    var help = $('<span class="fa fa-question"></span>')
+    var span = $('<span></span>');
+    form.append(help);
+    span.append(this.input);
+    form.append(span);
     initMentionInput(this.input);
     form.hide();
     return form
   };
 
   def.createQuickAddButtons = function () {
-    var content = $('<span>Quickly add </span>');
+    var content = $('<span class="quick-subtasks"><i class="fa fa-plus-circle"></i>Quickly add: </span>');
     var children = JSON.parse($('#available-children').val());
     $.each(children, function (index, value) {
-      var matcher = value[0].toLowerCase() + ':';
+      var matcher = value[0].toLowerCase() + ': ';
       var button = $('<a href="#" data-matcher="' + matcher + '">' + value + ' </a>');
       button.on('click', function (event) {
         event.preventDefault();
@@ -166,15 +168,27 @@ $(function(){
   if (canHaveChildren) {
     if (subtaskPartial.length !== 0) {
       var subtasksForm = new QuickSubtasksForm(subtaskPartial);
+      var bootstrapTooltip = $.fn.tooltip.noConflict();
+      $( document ).tooltip({
+        items: '.quick-add-form span.fa-question',
+        position: {
+          my: "left bottom+25"
+        },
+        content: function() {
+          return "<strong>Syntax format</strong>: (type of tracker initial): Issue subject (@ to assign) (~1 for a 1 hour estimation)";
+        }
+      });
     }
   } else {
     subtaskPartial.next('hr').remove();
     subtaskPartial.remove();
   }
+
+
 });
 
 function addBottomCommentButton(){
-  var commentButton = '<input type="button" id="bottom_comment" class="button" value="Add Comment">';
+  var commentButton = '<input type="submit" id="bottom_comment" class="button" value="Add Comment">';
   var commentDiv = '<div id="bottom_comment_block"></div>';
 
   $("body.controller-issues.action-show #content div.issue ~ div.contextual").prev().before(commentButton).before(commentDiv);

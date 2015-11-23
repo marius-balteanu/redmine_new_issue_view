@@ -1,4 +1,17 @@
+.quick-add-form span {
+  display: block;
+  overflow: hidden;
+  padding: 3px;
+}
+.quick-add-form span.fa-question {
+  float: left;
+  line-height: 30px;
+  cursor: help;
+}
 .quick-add-form input {
   width: 100%;
   max-width: 100%;
+}
+.quick-subtasks a {
+  margin-right:5px;
 }
