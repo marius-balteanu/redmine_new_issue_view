@@ -121,11 +121,9 @@ var QuickSubtasksForm = (function (oldSelf, $) {
 
   def.createQuickAddForm = function () {
     var form = $('<span class="quick-add-form"></span>');
-    var help = $('<span class="fa fa-question"></span>')
-    var span = $('<span></span>');
+    var help = $('<span class="help"><strong>Syntax format</strong>: (issue type first letter): Issue awesome subject (@ to assign) (~ to add estimation)</span>');
+    form.append(this.input);
     form.append(help);
-    span.append(this.input);
-    form.append(span);
     initMentionInput(this.input);
     form.hide();
     return form
@@ -168,17 +166,6 @@ $(function(){
   if (canHaveChildren) {
     if (subtaskPartial.length !== 0) {
       var subtasksForm = new QuickSubtasksForm(subtaskPartial);
-      var bootstrapTooltip = $.fn.tooltip.noConflict();
-      $( document ).tooltip({
-        items: '.quick-add-form span.fa-question',
-        position: { at: 'left bottom-10' },
-        content: function() {
-          return "Add subtask inline: \
-          <ul><li><strong>Syntax format</strong>: (Issue type first letter): Issue subject (@ to assign) (~1 for a 1 hour estimation) </li>\
-          <li><strong>Enter</strong> to submit the form</li> \
-          <li><strong>Clear input</strong> to hide the form</li></ul>";
-        }
-      });
     }
   } else {
     subtaskPartial.next('hr').remove();
