@@ -148,8 +148,10 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   };
 
   def.initialize = function () {
-    this.root.append(this.buttons);
-    this.root.append(this.form);
+    block =  $('<div/>').addClass('quick-add-block');
+    block.append(this.buttons);
+    block.append(this.form);
+    this.root.append(block);
   };
 
   return self;
@@ -176,7 +178,7 @@ $(function(){
 });
 
 function addBottomCommentButton(){
-  var commentButton = '<input type="submit" id="bottom_comment" class="button" value="Add Comment">';
+  var commentButton = '<div class="btn_container"><a id="bottom_comment" class="lu_button lu_img lb_btn_comment no_redirect"><span class="lu_button_main">Add Comment</span></a></div>';
   var commentDiv = '<div id="bottom_comment_block"></div>';
 
   $("body.controller-issues.action-show #content div.issue ~ div.contextual").prev().before(commentButton).before(commentDiv);
