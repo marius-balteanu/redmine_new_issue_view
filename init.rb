@@ -12,7 +12,6 @@ Redmine::Plugin.register :redmine_new_issue_view do
   version '3.1.0'
   url 'https://github.com/sdwolf/redmine_new_issue_view'
   author_url 'http://www.zitec.com'
-  settings partial: 'new_issue_view/plugin_settings'
 end
 
 Rails.application.config.after_initialize do
