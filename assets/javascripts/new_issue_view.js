@@ -12,7 +12,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.validateType = function (content, elements) {
     if (content.error !== null) { return; }
     var element = elements[0];
-    var matcher = /^([a-zA-Z]*:).*$/;
+    var matcher = /^([a-zA-Z\-]*:).*$/;
     var matched = matcher.exec(element);
     if (matched !== null) {
       var tracker = matched[1];
@@ -77,6 +77,15 @@ var QuickSubtasksForm = (function (oldSelf, $) {
       var request = $.ajax({
         url: '/issues/quick_add',
         method: 'POST',
+        beforeSend: function(xhr, opts){
+          if(data.data.tracker.indexOf("-")!=-1){
+            var decodedData = decodeURI(opts.data);
+            var params = new URLSearchParams(decodedData);
+            var tracker = params.get("data[tracker]");
+            params.set("data[tracker]", tracker.replace("-"," "));
+            opts.data = params.toString();
+          }
+        },
         data: data,
         dataType: 'JSON'
       });
@@ -133,7 +142,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var content = $('<span class="quick-subtasks"><i class="fa fa-plus-circle"></i>Quickly add: </span>');
     var children = JSON.parse($('#available-children').val());
     $.each(children, function (index, value) {
-      var matcher = value[0].toLowerCase() + ': ';
+      var matcher = value.replace(" ","-").toLowerCase() + ': ';
       var button = $('<a href="#" data-matcher="' + matcher + '">' + value + ' </a>');
       button.on('click', function (event) {
         event.preventDefault();
