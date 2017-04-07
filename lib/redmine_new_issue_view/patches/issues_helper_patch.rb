@@ -8,8 +8,8 @@ module RedmineNewIssueView
           # This overrides the render_descendants_tree method from IssuesHelper
           # It ads the thead section and changes the listed columns
           def render_descendants_tree(issue)
-            s = "<form><table class='list issues'>
-              <thead>
+            s = '<table class="list issues odd-even">'
+            s << "<thead>
                 <tr>
                   <th>#{ t 'views.table_headers.subject' }</th>
                   <th>#{ t 'views.table_headers.status' }</th>
@@ -18,52 +18,25 @@ module RedmineNewIssueView
                   <th>#{ t 'views.table_headers.spent' }</th>
                 </tr>
               </thead>"
-            issue_list(issue.descendants.visible.preload(:status, :priority, :tracker).sort_by(&:lft)) do |child, level|
-              css_class = "issue issue-#{child.id} status-#{ child.status_id } tracker-#{ child.tracker_id } hascontextmenu"
-              css_class << " idnt idnt-#{level}" if level > 0
-              estimated_hours = round_or_nill child.estimated_hours, 2
-              if estimated_hours || child.total_spent_hours != 0
-                total_spent_hours = round_or_nill child.total_spent_hours, 2
-              end
-              estimated_hours_css = issue_estimated_hours_css_for estimated_hours, total_spent_hours
-              spent_hours_css = issue_spent_hours_css_for estimated_hours, total_spent_hours
+            issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
+              css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
+              css << " idnt idnt-#{level}" if level > 0
               s << content_tag('tr',
                      content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
                      content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
                      content_tag('td', h(child.status), :class => 'status') +
-                     content_tag('td', link_to_user(child.assigned_to)) +
+                     content_tag('td', link_to_user(child.assigned_to), :class => 'assigned_to') +
                      # These columns were added
-                     content_tag('td', estimated_hours, class: "estimated #{ estimated_hours_css }") +
-                     content_tag('td', total_spent_hours, class: "spent #{ spent_hours_css }"),
+                     content_tag('td', child.disabled_core_fields.include?('estimated_hours') ? '' : child.total_estimated_hours, class: "estimated_hours") +
+                     content_tag('td', (User.current.allowed_to?(:view_time_entries, @project) && child.total_spent_hours > 0) ? child.total_spent_hours : '', class: "spent_time"),
                      # This column was removed
-                     # content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
-                     :class => css_class)
+                    #  content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio'),
+                     :class => css)
             end
-            s << '</table></form>'
+            s << '</table>'
             s.html_safe
           end
 
-          def issue_spent_hours_css_for(estimated_hours, spent_hours)
-            return '' unless estimated_hours && spent_hours
-            case
-            when spent_hours > estimated_hours
-              'hours_overdue'
-            when spent_hours == estimated_hours
-              'hours_complete'
-            else
-              'hours_on_schedule'
-            end
-          end
-
-          def issue_estimated_hours_css_for(estimated_hours, spent_hours)
-            return '' unless (estimated_hours && spent_hours) && (spent_hours == estimated_hours)
-            'hours_complete'
-          end
-
-          def round_or_nill(value, decimals)
-            return unless value
-            value.to_f.round decimals
-          end
         end
       end
     end
