@@ -15,5 +15,11 @@
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
-<%= render_sidebar_queries(IssueQuery, @project) %>
+<!-- @Todo second condition to be removed after the 3.4.0 release -->
+<% if Redmine::VERSION.to_s >= '3.4' || Redmine::VERSION.to_s == '3.3.3.devel' %>
+  <%= render_sidebar_queries(IssueQuery, @project) %>
+<% else %>
+  <%= render_sidebar_queries %>
+<% end %>
+
 <%= call_hook(:view_issues_sidebar_queries_bottom) %>
