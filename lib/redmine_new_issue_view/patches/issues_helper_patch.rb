@@ -8,7 +8,7 @@ module RedmineNewIssueView
           # This overrides the render_descendants_tree method from IssuesHelper
           # It ads the thead section and changes the listed columns
           def render_descendants_tree(issue)
-            s = '<table class="list issues odd-even">'
+            s = '<form><table class="list issues odd-even">'
             s << "<thead>
                 <tr>
                   <th>#{ t 'views.table_headers.subject' }</th>
@@ -33,7 +33,7 @@ module RedmineNewIssueView
                     #  content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio'),
                      :class => css)
             end
-            s << '</table>'
+            s << '</table></form>'
             s.html_safe
           end
 
