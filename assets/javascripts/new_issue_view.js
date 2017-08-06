@@ -28,7 +28,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.validateSubject = function (content, elements) {
     if (content.error !== null) { return; }
     var subject = elements.reduce(function(result, value, index, array) {
-      var hasEstimation = index >= array.length - 2 && /^[\[~|~]/.test(value);
+      var hasEstimation = index >= array.length - 2 && /^[@|~]/.test(value);
       if (index === 0 || hasEstimation) { return result; }
       return result + ' ' + value;
     }, []);
@@ -42,13 +42,13 @@ var QuickSubtasksForm = (function (oldSelf, $) {
   def.validateAssigneeAndEstimation = function (content, elements) {
     var last = elements[elements.length - 1];
     var secondLast = elements[elements.length -2];
-    var assigneeMatcher = /^\[~[a-z]+\.[a-z]+\]$/;
+    var assigneeMatcher = /^@[a-z]+\.[a-z]+$/;
     var estimationMatcher = /^~(\d+(\.?\d+)?)\s?h?$/;
     if (assigneeMatcher.test(secondLast)) {
-      content.values.assignee = secondLast.slice(2, -1);
+      content.values.assignee = secondLast.slice(1);
     }
     else if (assigneeMatcher.test(last)) {
-      content.values.assignee = last.slice(2, -1);
+      content.values.assignee = last.slice(1);
     }
     if (estimationMatcher.test(secondLast)) {
       content.values.estimation = estimationMatcher.exec(secondLast)[1];
@@ -133,7 +133,6 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var help = $('<span class="help"><strong>Syntax format</strong>: (issue type first letter): Issue subject (@ to assign) (~ to add estimation)</span>');
     form.append(this.input);
     form.append(help);
-    initMentionInput(this.input);
     form.hide();
     return form
   };
