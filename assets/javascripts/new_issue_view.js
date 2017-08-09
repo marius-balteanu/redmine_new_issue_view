@@ -133,6 +133,7 @@ var QuickSubtasksForm = (function (oldSelf, $) {
     var help = $('<span class="help"><strong>Syntax format</strong>: (issue type first letter): Issue subject (@ to assign) (~ to add estimation)</span>');
     form.append(this.input);
     form.append(help);
+    this.tryInitMention(this.input);
     form.hide();
     return form
   };
@@ -153,6 +154,12 @@ var QuickSubtasksForm = (function (oldSelf, $) {
       content.append(button);
     }.bind(this));
     return content;
+  };
+
+  def.tryInitMention = function (input) {
+    if (typeof initMention === "function") {
+      initMention(input)
+    }
   };
 
   def.initialize = function () {
