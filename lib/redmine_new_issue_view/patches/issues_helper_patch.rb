@@ -3,7 +3,6 @@ module RedmineNewIssueView
     module IssuesHelperPatch
       def self.included(base)
         base.class_eval do
-          unloadable
 
           # This overrides the render_descendants_tree method from IssuesHelper
           # It ads the thead section and changes the listed columns
