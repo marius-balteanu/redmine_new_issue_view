@@ -23,7 +23,7 @@ module RedmineNewIssueView
               s << content_tag('tr',
                      content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
                      content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
-                     content_tag('td', h(child.status), :class => 'status') +
+                     content_tag('td', content_tag('span', h(child.status)), :class => 'status') +
                      content_tag('td', link_to_user(child.assigned_to), :class => 'assigned_to') +
                      # These columns were added
                      content_tag('td', child.disabled_core_fields.include?('estimated_hours') ? '' : child.total_estimated_hours, class: "estimated_hours") +
